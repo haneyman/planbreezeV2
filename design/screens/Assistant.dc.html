@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PlanBreeze — Ask Breeze</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'DM Sans',system-ui,sans-serif;background:#F6F3EC;color:#1D2733}
+a{color:#24506B}a:hover{color:#163A50}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; display: flex; background: #F6F3EC; overflow: hidden; font-family: 'DM Sans', system-ui, sans-serif; color: #1D2733">
+
+<aside style="width: 232px; flex-shrink: 0; box-sizing: border-box; padding: 24px 16px; display: flex; flex-direction: column; gap: 28px; border-right: 1px solid #E4DFD4; background: #FBF9F4">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px">
+<svg width="30" height="30" viewBox="0 0 28 28" fill="none" stroke="#24506B" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 10h13a3.5 3.5 0 1 0-3.5-3.5"></path><path d="M4 15h18a3.5 3.5 0 1 1-3.5 3.5"></path><path d="M4 20h8" stroke="#D9774A"></path></svg>
+<span style="font-family: Fraunces, Georgia, serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em">PlanBreeze</span>
+</div>
+<nav aria-label="Main" style="display: flex; flex-direction: column; gap: 2px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Planner</a>
+<a href="Discover.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><path d="M12 12l6-6"></path></svg><span style="flex-grow: 1">Discover</span><span style="font-size: 11px; font-weight: 700; background: #FBEDE4; color: #8A3A17; padding: 2px 8px; border-radius: 999px">6 new</span></a>
+<a href="Assistant.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; background: #E3EEF4; color: #163A50; font-weight: 600; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Ask Breeze</a>
+<a href="Capture.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add from anywhere</a>
+<a href="Settings.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .6 3.2 2.5 3.5 5.5"></path></svg>Calendars &amp; circles</a>
+</nav>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 0 8px">
+<div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #5B6572; margin-bottom: 6px">RECENT CHATS</div>
+<div style="font-size: 13px; color: #1D2733; padding: 6px 0">Wine tastings in October</div>
+<div style="font-size: 13px; color: #3A4552; padding: 6px 0">Porto: 3 days, what to do</div>
+<div style="font-size: 13px; color: #3A4552; padding: 6px 0">Mom's 70th — gift ideas</div>
+<div style="font-size: 13px; color: #3A4552; padding: 6px 0">Free weekends before Tahoe</div>
+</div>
+</aside>
+
+<main style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; box-sizing: border-box">
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 32px 56px 16px; display: flex; flex-direction: column; gap: 20px">
+
+<div style="align-self: flex-end; max-width: 520px; background: #24506B; color: #FFFFFF; padding: 12px 16px; border-radius: 18px 18px 4px 18px; font-size: 15px; line-height: 1.45">Find a wine tasting event in October</div>
+
+<div style="display: flex; gap: 12px; align-items: flex-start">
+<div style="width: 32px; height: 32px; flex-shrink: 0; border-radius: 999px; background: #FBEDE4; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D9774A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg></div>
+<div style="display: flex; flex-direction: column; gap: 14px; flex-grow: 1; min-width: 0">
+<p style="margin: 4px 0 0; font-size: 15px; line-height: 1.55; max-width: 640px">I found three tastings in October within an hour of home, and checked each one against your Google Calendar and your circle's plans. One is already on your radar.</p>
+
+<sc-for list="{{results}}" as="r" hint-placeholder-count="3">
+<article style="background: #FFFFFF; border: 1px solid #E4DFD4; border-radius: 16px; padding: 16px 18px; display: flex; gap: 18px; max-width: 760px">
+<div style="width: 64px; flex-shrink: 0; border-radius: 12px; background: #F6F3EC; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 0">
+<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #9A4520">{{r.mon}}</span>
+<span style="font-family: Fraunces, Georgia, serif; font-size: 26px; font-weight: 600; line-height: 1.1">{{r.day}}</span>
+<span style="font-size: 11px; color: #5B6572">{{r.wd}}</span>
+</div>
+<div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 16px; font-weight: 700">{{r.title}}</div>
+<div style="font-size: 13px; color: #3A4552">{{r.meta}}</div>
+<div style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: {{r.fitColor}}"><span style="width: 8px; height: 8px; border-radius: 999px; background: {{r.fitColor}}"></span>{{r.fit}}</div>
+<div style="display: flex; gap: 8px; margin-top: 4px">
+<sc-if value="{{r.notOnRadar}}" hint-placeholder-val="{{true}}">
+<button type="button" onClick="{{r.add}}" style="height: 38px; padding: 0 14px; border: 1.5px dashed #D9774A; border-radius: 10px; background: #FBEDE4; color: #8A3A17; font-size: 13px; font-weight: 700; cursor: pointer">Add to radar</button>
+</sc-if>
+<sc-if value="{{r.onRadar}}" hint-placeholder-val="{{false}}">
+<span style="display: flex; align-items: center; gap: 6px; height: 38px; padding: 0 4px; font-size: 13px; font-weight: 700; color: #3F7A5A"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>On your radar</span>
+</sc-if>
+<button type="button" style="height: 38px; padding: 0 14px; border: 0; border-radius: 10px; background: #24506B; color: #FFFFFF; font-size: 13px; font-weight: 600; cursor: pointer">Commit &amp; add to calendar</button>
+<button type="button" style="height: 38px; padding: 0 14px; border: 1px solid #D6D0C3; border-radius: 10px; background: #FFFFFF; color: #1D2733; font-size: 13px; font-weight: 600; cursor: pointer">Ask Dana</button>
+</div>
+</div>
+</article>
+</sc-for>
+
+<div style="background: #FBF9F4; border: 1px solid #E4DFD4; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; max-width: 760px; box-sizing: border-box">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#24506B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><path d="M12 12l6-6"></path></svg>
+<div style="flex-grow: 1; font-size: 14px; line-height: 1.45">{{watchText}}</div>
+<sc-if value="{{notWatching}}" hint-placeholder-val="{{true}}">
+<button type="button" onClick="{{watch}}" style="height: 38px; padding: 0 14px; border: 0; border-radius: 10px; background: #E3EEF4; color: #163A50; font-size: 13px; font-weight: 700; cursor: pointer">Yes, keep watching</button>
+</sc-if>
+</div>
+</div>
+</div>
+
+<div style="align-self: flex-end; max-width: 520px; background: #24506B; color: #FFFFFF; padding: 12px 16px; border-radius: 18px 18px 4px 18px; font-size: 15px; line-height: 1.45">Which Saturdays in November is everyone free?</div>
+
+<div style="display: flex; gap: 12px; align-items: flex-start">
+<div style="width: 32px; height: 32px; flex-shrink: 0; border-radius: 999px; background: #FBEDE4; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D9774A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg></div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 4px 0 0; font-size: 15px; line-height: 1.55; max-width: 640px">Across you, Dana, Maya and Sam:</p>
+<div style="display: flex; gap: 8px">
+<span style="padding: 8px 12px; border-radius: 10px; background: #E6F0EA; color: #2C5A41; font-size: 13px; font-weight: 700">Nov 7 · free</span>
+<span style="padding: 8px 12px; border-radius: 10px; background: #FBEDE4; color: #8A3A17; font-size: 13px; font-weight: 700">Nov 14 · Friendsgiving (radar)</span>
+<span style="padding: 8px 12px; border-radius: 10px; background: #E3EEF4; color: #163A50; font-size: 13px; font-weight: 700">Nov 21 · Sam arrives</span>
+<span style="padding: 8px 12px; border-radius: 10px; background: #E3EEF4; color: #163A50; font-size: 13px; font-weight: 700">Nov 28 · Thanksgiving weekend</span>
+</div>
+</div>
+</div>
+</div>
+
+<div style="padding: 16px 56px 24px; border-top: 1px solid #E4DFD4; background: #F6F3EC">
+<div style="display: flex; gap: 10px; align-items: center; background: #FFFFFF; border: 1px solid #D6D0C3; border-radius: 16px; padding: 6px 6px 6px 16px">
+<label for="composer" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Message Breeze</label>
+<input id="composer" type="text" placeholder="Ask Breeze to find, compare or plan something…" style="flex-grow: 1; min-width: 0; height: 44px; border: 0; outline: none; font-size: 15px; color: #1D2733; background: transparent">
+<button type="button" aria-label="Attach a link or screenshot" style="width: 44px; height: 44px; border: 0; border-radius: 12px; background: transparent; color: #5B6572; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"></path><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg></button>
+<button type="button" aria-label="Send" style="width: 44px; height: 44px; border: 0; border-radius: 12px; background: #24506B; color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+</div>
+<div style="font-size: 12px; color: #5B6572; margin-top: 8px">Breeze can see your connected calendars and your circle's shared plans. It never books or buys without asking.</div>
+</div>
+</main>
+
+<aside style="width: 380px; flex-shrink: 0; border-left: 1px solid #E4DFD4; background: #FFFFFF; box-sizing: border-box; padding: 28px 22px; display: flex; flex-direction: column; gap: 18px">
+<div>
+<h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 21px; font-weight: 600">Breeze is watching</h2>
+<p style="margin: 6px 0 0; font-size: 13px; line-height: 1.45; color: #5B6572">Standing searches run in the background. New finds show up in Discover and on your radar.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{searches}}" as="w" hint-placeholder-count="5">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid #E4DFD4; border-radius: 12px">
+<div style="flex-grow: 1; min-width: 0">
+<div style="font-size: 14px; font-weight: 600">{{w.title}}</div>
+<div style="font-size: 12px; color: #5B6572; margin-top: 2px">{{w.sub}}</div>
+</div>
+<button type="button" role="switch" aria-checked="{{w.checked}}" aria-label="{{w.title}}" onClick="{{w.toggle}}" style="width: 44px; height: 26px; flex-shrink: 0; border: 0; border-radius: 999px; padding: 3px; cursor: pointer; display: flex; justify-content: {{w.justify}}; background: {{w.track}}"><span style="width: 20px; height: 20px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.2)"></span></button>
+</div>
+</sc-for>
+</div>
+<div style="height: 1px; background: #E4DFD4"></div>
+<div style="display: flex; align-items: center"><span style="font-size: 15px; font-weight: 700; flex-grow: 1">What Breeze has learned</span><a href="Settings.dc.html" style="font-size: 13px; font-weight: 600">Edit</a></div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<span style="font-size: 13px; padding: 6px 12px; border-radius: 999px; background: #F6F3EC; border: 1px solid #E4DFD4">Wine &amp; food</span>
+<span style="font-size: 13px; padding: 6px 12px; border-radius: 999px; background: #F6F3EC; border: 1px solid #E4DFD4">Live jazz</span>
+<span style="font-size: 13px; padding: 6px 12px; border-radius: 999px; background: #F6F3EC; border: 1px solid #E4DFD4">Kid-friendly (Maya, 9)</span>
+<span style="font-size: 13px; padding: 6px 12px; border-radius: 999px; background: #F6F3EC; border: 1px solid #E4DFD4">Outdoors</span>
+<span style="font-size: 13px; padding: 6px 12px; border-radius: 999px; background: #F6F3EC; border: 1px solid #E4DFD4">Within 1 hr of home</span>
+<span style="font-size: 13px; padding: 6px 12px; border-radius: 999px; background: #F6F3EC; border: 1px solid #E4DFD4">Weekends</span>
+</div>
+<p style="margin: 0; font-size: 12px; line-height: 1.5; color: #5B6572">Sources: ticketing sites, venue and museum calendars, local listings and newsletters you forward to PlanBreeze.</p>
+</aside>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { added: { a1: true }, watching: false, on: { w1: true, w2: true, w3: false, w4: true, w5: true } };
+  }
+  renderVals() {
+    const st = this.state;
+    const res = [
+      { id: 'a1', mon: 'OCT', day: '10', wd: 'Sat', title: 'Harvest wine tasting', meta: 'Ridgeline Cellars, Sonoma · 1:00–5:00 pm · [PRICE] per person · 50 min drive', fit: 'You and Dana are free', fitColor: '#2C6B49' },
+      { id: 'a2', mon: 'OCT', day: '18', wd: 'Sun', title: 'Sparkling wine & oyster afternoon', meta: 'Bayside Wine Bar, Oakland · 12:00–3:00 pm · [PRICE] · 25 min drive', fit: "Free — the day after Mom's 70th dinner", fitColor: '#2C6B49' },
+      { id: 'a3', mon: 'OCT', day: '24', wd: 'Sat', title: 'Barrel tasting weekend, Livermore Valley', meta: 'Multiple wineries · 11:00 am–4:00 pm · [PRICE] pass', fit: "Overlaps Napa weekend with the Parks — want Napa tastings instead?", fitColor: '#9A4520' }
+    ];
+    const searches = [
+      { id: 'w1', title: 'Wine tastings & winemaker dinners', sub: 'Within 1 hr · 3 new this week' },
+      { id: 'w2', title: 'Kid-friendly weekend events', sub: 'For Maya · 5 new this week' },
+      { id: 'w3', title: 'Live jazz', sub: 'Evenings, Thu–Sat' },
+      { id: 'w4', title: 'Lisbon & Porto, Jun 12–26, 2027', sub: 'Festivals, food tours, day trips' },
+      { id: 'w5', title: 'Flight prices SFO → Lisbon', sub: 'Alert me on a good fare' }
+    ];
+    return {
+      results: res.map((r) => {
+        const on = !!st.added[r.id];
+        return Object.assign({}, r, { onRadar: on, notOnRadar: !on, add: () => this.setState({ added: Object.assign({}, st.added, { [r.id]: true }) }) });
+      }),
+      watchText: st.watching ? 'Watching for new October wine events — I will add good ones to Discover and ping you.' : 'Want me to keep watching for new October tastings and let you know?',
+      notWatching: !st.watching,
+      watch: () => this.setState({ watching: true }),
+      searches: searches.map((w) => {
+        const on = !!st.on[w.id];
+        return Object.assign({}, w, { checked: on ? 'true' : 'false', justify: on ? 'flex-end' : 'flex-start', track: on ? '#24506B' : '#C9C2B4', toggle: () => this.setState({ on: Object.assign({}, st.on, { [w.id]: !on }) }) });
+      }),
+      true: true, false: false
+    };
+  }
+}
+</script>
+</body>
+</html>

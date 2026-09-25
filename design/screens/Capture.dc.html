@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PlanBreeze — Add from anywhere</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'DM Sans',system-ui,sans-serif;background:#F6F3EC;color:#1D2733}
+a{color:#24506B}a:hover{color:#163A50}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; display: flex; gap: 40px; box-sizing: border-box; padding: 48px; background: #E9E4D9; overflow: hidden; font-family: 'DM Sans', system-ui, sans-serif; color: #1D2733">
+
+<div style="width: 960px; flex-shrink: 0; height: 864px; background: #FFFFFF; border-radius: 14px; box-shadow: 0 20px 50px rgba(29,39,51,0.18); display: flex; flex-direction: column; overflow: hidden; position: relative">
+<div style="height: 52px; flex-shrink: 0; background: #F1EEE7; border-bottom: 1px solid #E0DACD; display: flex; align-items: center; gap: 14px; padding: 0 16px">
+<div style="display: flex; gap: 7px"><span style="width: 12px; height: 12px; border-radius: 999px; background: #D8D2C5"></span><span style="width: 12px; height: 12px; border-radius: 999px; background: #D8D2C5"></span><span style="width: 12px; height: 12px; border-radius: 999px; background: #D8D2C5"></span></div>
+<div style="flex-grow: 1; height: 32px; background: #FFFFFF; border: 1px solid #E0DACD; border-radius: 8px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; color: #5B6572">ridgelinecellars.example/events/harvest-night</div>
+<button type="button" aria-label="PlanBreeze extension" style="width: 36px; height: 36px; border: 0; border-radius: 9px; background: #E3EEF4; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 28 28" fill="none" stroke="#24506B" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 10h13a3.5 3.5 0 1 0-3.5-3.5"></path><path d="M4 15h18a3.5 3.5 0 1 1-3.5 3.5"></path><path d="M4 20h8" stroke="#D9774A"></path></svg></button>
+</div>
+
+<div style="flex-grow: 1; display: flex; flex-direction: column; background: #2E2A26; color: #F3EDE3; padding: 56px 64px; gap: 20px">
+<div style="font-size: 13px; letter-spacing: 0.2em; color: #CDB894">RIDGELINE CELLARS · SONOMA</div>
+<div style="font-family: Fraunces, Georgia, serif; font-size: 60px; font-weight: 500; line-height: 1.05; max-width: 480px">Harvest Night Tasting</div>
+<div style="font-size: 18px; line-height: 1.6; max-width: 440px; color: #DDD3C3">Celebrate the end of crush with small-lot pours, live music on the terrace and bites from our kitchen.</div>
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 16px; color: #F3EDE3; margin-top: 8px">
+<div>Saturday, October 10, 2026</div>
+<div>1:00 – 5:00 pm</div>
+<div>Tickets [PRICE] · on sale October 1</div>
+</div>
+<div style="margin-top: 12px"><span style="display: inline-block; padding: 14px 26px; border: 1px solid #CDB894; color: #F3EDE3; font-size: 14px; letter-spacing: 0.12em">GET TICKETS</span></div>
+<div style="flex-grow: 1"></div>
+<div style="height: 180px; width: 440px; border-radius: 4px; background: #463F38; display: flex; align-items: center; justify-content: center; color: #A89C8A; font-size: 13px">[Winery photo]</div>
+</div>
+
+<section aria-label="PlanBreeze capture" style="position: absolute; top: 60px; right: 14px; width: 380px; background: #FFFFFF; border: 1px solid #E4DFD4; border-radius: 16px; box-shadow: 0 16px 40px rgba(29,39,51,0.24); padding: 18px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box">
+<div style="display: flex; align-items: center; gap: 8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D9774A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg><span style="font-size: 13px; font-weight: 700; color: #5B6572">Breeze found an event on this page</span></div>
+
+<sc-if value="{{notSaved}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div>
+<label for="cap-title" style="font-size: 12px; font-weight: 600; color: #5B6572">Title</label>
+<input id="cap-title" type="text" value="Harvest Night Tasting — Ridgeline Cellars" style="width: 100%; box-sizing: border-box; height: 40px; margin-top: 4px; border: 1px solid #D6D0C3; border-radius: 10px; padding: 0 12px; font-size: 14px; font-weight: 600; color: #1D2733">
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; font-size: 13px">
+<div style="background: #F6F3EC; border-radius: 10px; padding: 10px 12px"><div style="font-size: 11px; color: #5B6572; font-weight: 600">When</div><div style="font-weight: 600; margin-top: 2px">Sat, Oct 10 · 1–5 pm</div></div>
+<div style="background: #F6F3EC; border-radius: 10px; padding: 10px 12px"><div style="font-size: 11px; color: #5B6572; font-weight: 600">Where</div><div style="font-weight: 600; margin-top: 2px">Sonoma, CA</div></div>
+<div style="background: #F6F3EC; border-radius: 10px; padding: 10px 12px"><div style="font-size: 11px; color: #5B6572; font-weight: 600">Tickets</div><div style="font-weight: 600; margin-top: 2px">On sale Oct 1</div></div>
+<div style="background: #E6F0EA; border-radius: 10px; padding: 10px 12px"><div style="font-size: 11px; color: #2C5A41; font-weight: 600">Your calendar</div><div style="font-weight: 600; margin-top: 2px; color: #2C5A41">You're free</div></div>
+</div>
+<div>
+<div style="font-size: 12px; font-weight: 600; color: #5B6572; margin-bottom: 6px">Add as</div>
+<div role="group" aria-label="Add as" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding: 4px; background: #ECE7DC; border-radius: 12px">
+<button type="button" onClick="{{pickRadar}}" aria-pressed="{{radarPressed}}" style="height: 40px; border: 0; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; background: {{radarBg}}; color: {{radarColor}}">On the radar</button>
+<button type="button" onClick="{{pickCommit}}" aria-pressed="{{commitPressed}}" style="height: 40px; border: 0; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; background: {{commitBg}}; color: {{commitColor}}">Committed</button>
+</div>
+<div style="font-size: 12px; color: #5B6572; margin-top: 6px">{{laneHint}}</div>
+</div>
+<div>
+<div style="font-size: 12px; font-weight: 600; color: #5B6572; margin-bottom: 6px">Circle</div>
+<div role="radiogroup" aria-label="Circle" style="display: flex; gap: 6px; flex-wrap: wrap">
+<sc-for list="{{circleOpts}}" as="c" hint-placeholder-count="4">
+<button type="button" role="radio" aria-checked="{{c.checked}}" onClick="{{c.pick}}" style="display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px 0 5px; border-radius: 999px; font-size: 12px; font-weight: 600; cursor: pointer; color: #1D2733; background: {{c.bg}}; border: 1.5px solid {{c.border}}"><span style="width: 18px; height: 18px; border-radius: 7px; background: {{c.color}}"></span>{{c.name}}</button>
+</sc-for>
+</div>
+<div style="font-size: 12px; color: #5B6572; margin-top: 6px">{{circleHint}}</div>
+</div>
+<label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer"><input type="checkbox" checked style="width: 18px; height: 18px; accent-color: #24506B">Remind me when tickets go on sale (Oct 1)</label>
+<button type="button" onClick="{{save}}" style="height: 46px; border: 0; border-radius: 12px; background: #24506B; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer">{{saveLabel}}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{saved}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 12px; align-items: flex-start; padding: 8px 0">
+<div style="width: 44px; height: 44px; border-radius: 999px; background: #E6F0EA; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2C6B49" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="font-family: Fraunces, Georgia, serif; font-size: 20px; font-weight: 600">{{savedTitle}}</div>
+<div style="font-size: 13px; color: #5B6572; line-height: 1.45">{{savedBody}}</div>
+<div style="display: flex; gap: 8px">
+<a href="Main.dc.html" style="display: flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 10px; background: #E3EEF4; color: #163A50; font-size: 13px; font-weight: 700; text-decoration: none">View in planner</a>
+<button type="button" onClick="{{undo}}" style="height: 40px; padding: 0 14px; border: 1px solid #D6D0C3; border-radius: 10px; background: #FFFFFF; color: #1D2733; font-size: 13px; font-weight: 600; cursor: pointer">Undo</button>
+</div>
+</div>
+</sc-if>
+</section>
+</div>
+
+<div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<div>
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#24506B" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 10h13a3.5 3.5 0 1 0-3.5-3.5"></path><path d="M4 15h18a3.5 3.5 0 1 1-3.5 3.5"></path><path d="M4 20h8" stroke="#D9774A"></path></svg>
+<span style="font-family: Fraunces, Georgia, serif; font-size: 20px; font-weight: 600">PlanBreeze</span>
+</div>
+<h1 style="margin: 18px 0 0; font-family: Fraunces, Georgia, serif; font-size: 32px; font-weight: 600; line-height: 1.15">Add from anywhere</h1>
+<p style="margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: #3A4552">Breeze reads the page, email or photo, pulls out the date, place and tickets, and checks it against everyone's calendars.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="background: #FFFFFF; border-radius: 14px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#24506B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 9h18"></path></svg><div><div style="font-size: 14px; font-weight: 700">Browser extension</div><div style="font-size: 13px; color: #5B6572; margin-top: 2px">One click on any event page</div></div></div>
+<div style="background: #FFFFFF; border-radius: 14px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#24506B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><div><div style="font-size: 14px; font-weight: 700">Forward an email</div><div style="font-size: 13px; color: #5B6572; margin-top: 2px">Send to <span style="font-weight: 600; color: #1D2733">mark@in.planbreeze.com</span></div></div></div>
+<div style="background: #FFFFFF; border-radius: 14px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#24506B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M15 4v16"></path></svg><div><div style="font-size: 14px; font-weight: 700">Gmail side panel</div><div style="font-size: 13px; color: #5B6572; margin-top: 2px">Save straight from your inbox</div></div></div>
+<div style="background: #FFFFFF; border-radius: 14px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#24506B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg><div><div style="font-size: 14px; font-weight: 700">Share from your phone</div><div style="font-size: 13px; color: #5B6572; margin-top: 2px">Any app's share sheet</div></div></div>
+<div style="background: #FFFFFF; border-radius: 14px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#24506B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg><div><div style="font-size: 14px; font-weight: 700">Snap a flyer</div><div style="font-size: 13px; color: #5B6572; margin-top: 2px">Posters, school notes, invitations</div></div></div>
+</div>
+<div>
+<label for="paste" style="font-size: 13px; font-weight: 700">Or paste a link or text</label>
+<textarea id="paste" placeholder="Paste a URL, an email or “dinner at the Parks' on the 14th”" style="margin-top: 6px; width: 100%; height: 88px; box-sizing: border-box; resize: none; border: 1px solid #D6D0C3; border-radius: 12px; padding: 12px; font-size: 14px; font-family: inherit; color: #1D2733; background: #FFFFFF"></textarea>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { lane: 'r', saved: false, circle: 'wine' };
+  }
+  renderVals() {
+    const r = this.state.lane === 'r';
+    const circles = [
+      { id: 'me', name: 'Just me', color: '#24506B', cal: 'Google · Personal' },
+      { id: 'family', name: 'Family', color: '#3F7A5A', cal: 'Google · Family' },
+      { id: 'crew', name: 'Weekend crew', color: '#46698F', cal: null },
+      { id: 'wine', name: 'Wine club', color: '#A0445B', cal: null }
+    ];
+    const cur = circles.find((c) => c.id === this.state.circle) || circles[0];
+    const calFor = cur.cal || 'Google · Personal';
+    return {
+      circleOpts: circles.map((c) => {
+        const on = c.id === cur.id;
+        return { name: c.name, color: c.color, checked: on ? 'true' : 'false', bg: on ? '#E3EEF4' : '#FFFFFF', border: on ? '#24506B' : '#CFC8B9', pick: () => this.setState({ circle: c.id }) };
+      }),
+      circleHint: cur.id === 'me' ? 'Only you see this plan. When committed, it goes to ' + calFor + '.' : 'Shared with the ' + cur.name + ' circle. When committed, it goes to ' + calFor + (cur.cal ? ' (linked to this circle).' : ' (your default calendar).'),
+      pickRadar: () => this.setState({ lane: 'r' }),
+      pickCommit: () => this.setState({ lane: 'c' }),
+      radarPressed: r ? 'true' : 'false', commitPressed: r ? 'false' : 'true',
+      radarBg: r ? '#FBEDE4' : 'transparent', radarColor: r ? '#8A3A17' : '#5B6572',
+      commitBg: r ? 'transparent' : '#24506B', commitColor: r ? '#5B6572' : '#FFFFFF',
+      laneHint: r ? 'Stays in PlanBreeze. No calendar hold until you commit.' : 'Adds to ' + calFor + (cur.id === 'me' ? '.' : ' and notifies the ' + cur.name + ' circle.'),
+      saveLabel: r ? 'Save to radar' : 'Commit & add to calendar',
+      save: () => this.setState({ saved: true }),
+      undo: () => this.setState({ saved: false }),
+      saved: this.state.saved, notSaved: !this.state.saved,
+      savedTitle: r ? 'Saved to your radar' : 'Added to Google Calendar',
+      savedBody: r ? (cur.id === 'me' ? 'Harvest Night is on your radar' : 'Harvest Night is on the ' + cur.name + ' radar') + " for Oct 10. I'll remind you when tickets open on Oct 1." : 'Harvest Night is on ' + calFor + ' for Oct 10.' + (cur.id === 'me' ? '' : ' The ' + cur.name + ' circle has been notified.'),
+      true: true, false: false
+    };
+  }
+}
+</script>
+</body>
+</html>

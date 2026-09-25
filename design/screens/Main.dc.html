@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PlanBreeze — Planner</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'DM Sans',system-ui,sans-serif;background:#F6F3EC;color:#1D2733}
+a{color:#24506B}a:hover{color:#163A50}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; display: flex; background: #F6F3EC; overflow: hidden; font-family: 'DM Sans', system-ui, sans-serif; color: #1D2733">
+
+<aside style="width: 232px; flex-shrink: 0; box-sizing: border-box; padding: 24px 16px; display: flex; flex-direction: column; gap: 28px; border-right: 1px solid #E4DFD4; background: #FBF9F4">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px">
+<svg width="30" height="30" viewBox="0 0 28 28" fill="none" stroke="#24506B" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 10h13a3.5 3.5 0 1 0-3.5-3.5"></path><path d="M4 15h18a3.5 3.5 0 1 1-3.5 3.5"></path><path d="M4 20h8" stroke="#D9774A"></path></svg>
+<span style="font-family: Fraunces, Georgia, serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em">PlanBreeze</span>
+</div>
+<nav aria-label="Main" style="display: flex; flex-direction: column; gap: 2px">
+<a href="Main.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; background: #E3EEF4; color: #163A50; font-weight: 600; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Planner</a>
+<a href="Discover.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><path d="M12 12l6-6"></path></svg><span style="flex-grow: 1">Discover</span><span style="font-size: 11px; font-weight: 700; background: #FBEDE4; color: #8A3A17; padding: 2px 8px; border-radius: 999px">6 new</span></a>
+<a href="Assistant.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Ask Breeze</a>
+<a href="Capture.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add from anywhere</a>
+<a href="Settings.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .6 3.2 2.5 3.5 5.5"></path></svg>Calendars &amp; circles</a>
+</nav>
+<div style="flex-grow: 1"></div>
+<div style="background: #FFFFFF; border: 1px solid #E4DFD4; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; font-size: 13px">
+<div style="font-weight: 600">Calendars</div>
+<div style="display: flex; align-items: center; gap: 8px"><span style="width: 8px; height: 8px; border-radius: 999px; background: #3F7A5A"></span><span style="flex-grow: 1">Google Calendar</span><span style="color: #5B6572; font-size: 12px">Synced 2m ago</span></div>
+<div style="display: flex; align-items: center; gap: 8px; color: #5B6572"><span style="width: 8px; height: 8px; border-radius: 999px; border: 1.5px solid #9AA3AD; box-sizing: border-box"></span><span style="flex-grow: 1">Apple, Yahoo</span><a href="Settings.dc.html" style="font-size: 12px; font-weight: 600">Connect</a></div>
+</div>
+</aside>
+
+<main style="flex-grow: 1; min-width: 0; box-sizing: border-box; padding: 28px 28px 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: flex-end; gap: 16px">
+<div style="flex-grow: 1">
+<div style="font-size: 14px; color: #5B6572">Good morning, Mark</div>
+<h1 style="margin: 2px 0 0; font-family: Fraunces, Georgia, serif; font-size: 34px; font-weight: 600; letter-spacing: -0.015em">Your plans</h1>
+</div>
+<a href="Capture.dc.html" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border: 1px solid #D6D0C3; border-radius: 12px; background: #FFFFFF; color: #1D2733; font-size: 14px; font-weight: 600; text-decoration: none; box-sizing: border-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"></path><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg>Paste a link or email</a>
+<a href="Capture.dc.html" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border-radius: 12px; background: #24506B; color: #FFFFFF; font-size: 14px; font-weight: 600; text-decoration: none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>New plan</a>
+</div>
+
+<div style="display: flex; align-items: center; gap: 16px">
+<div role="group" aria-label="Timeframe" style="display: flex; gap: 4px; padding: 4px; background: #ECE7DC; border-radius: 12px">
+<sc-for list="{{zooms}}" as="z" hint-placeholder-count="4">
+<button type="button" onClick="{{z.pick}}" aria-pressed="{{z.pressed}}" style="height: 36px; padding: 0 16px; border: 0; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; background: {{z.bg}}; color: {{z.color}}; box-shadow: {{z.shadow}}">{{z.label}}</button>
+</sc-for>
+</div>
+<div style="font-size: 14px; font-weight: 600">{{rangeLabel}}</div>
+<div style="flex-grow: 1"></div>
+<div style="display: flex; align-items: center; gap: 16px; font-size: 13px; color: #3A4552">
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 22px; height: 12px; border-radius: 4px; background: #24506B"></span>Committed</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 22px; height: 12px; border-radius: 4px; background: #FBEDE4; border: 1.5px dashed #D9774A; box-sizing: border-box"></span>On the radar</span>
+</div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+<span style="font-size: 13px; color: #5B6572; margin-right: 4px">Showing plans for</span>
+<sc-for list="{{chips}}" as="p" hint-placeholder-count="4">
+<button type="button" onClick="{{p.pick}}" aria-pressed="{{p.pressed}}" title="{{p.hint}}" style="display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px 0 4px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; background: {{p.bg}}; border: 1px solid {{p.border}}; color: #1D2733; opacity: {{p.opacity}}">
+<sc-if value="{{p.isMe}}" hint-placeholder-val="{{false}}"><span style="width: 28px; height: 28px; border-radius: 999px; color: #FFFFFF; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; background: {{p.color}}">{{p.ini}}</span></sc-if>
+<sc-if value="{{p.isCircle}}" hint-placeholder-val="{{true}}"><span style="width: 28px; height: 28px; border-radius: 9px; color: #FFFFFF; display: flex; align-items: center; justify-content: center; background: {{p.color}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .6 3.2 2.5 3.5 5.5"></path></svg></span></sc-if>
+{{p.name}}<span style="font-size: 12px; font-weight: 500; color: #5B6572">{{p.count}}</span></button>
+</sc-for>
+<a href="Settings.dc.html" style="display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 999px; border: 1px dashed #CFC8B9; font-size: 13px; font-weight: 600; color: #3A4552; text-decoration: none; box-sizing: border-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>New circle</a>
+</div>
+
+<section aria-label="Timeline" style="background: #FFFFFF; border: 1px solid #E4DFD4; border-radius: 16px; padding: 0 20px 12px; display: flex; flex-direction: column; height: 440px; box-sizing: border-box; overflow: hidden; flex-shrink: 0">
+<div style="position: relative; height: 44px; border-bottom: 1px solid #E4DFD4; flex-shrink: 0">
+<sc-for list="{{ticks}}" as="t" hint-placeholder-count="8">
+<div style="position: absolute; top: 0; bottom: 0; left: {{t.left}}; width: {{t.width}}; border-left: 1px solid #EEEAE1; box-sizing: border-box; padding: 13px 0 0 8px; font-size: 12px; color: #5B6572; white-space: nowrap; overflow: hidden"><span style="font-weight: 600; color: #1D2733">{{t.label}}</span> {{t.sub}}</div>
+</sc-for>
+<sc-if value="{{showToday}}" hint-placeholder-val="{{true}}">
+<div style="position: absolute; bottom: -1px; left: {{todayLeft}}; transform: translateX(-50%); background: #D9774A; color: #FFFFFF; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 6px 6px 0 0">TODAY</div>
+</sc-if>
+</div>
+<div style="position: relative; flex-grow: 1; overflow-y: auto; overflow-x: hidden">
+<div style="position: relative; min-height: 100%">
+<sc-for list="{{ticks}}" as="t" hint-placeholder-count="8">
+<div style="position: absolute; top: 0; bottom: 0; left: {{t.left}}; width: {{t.width}}; border-left: 1px solid #F1EDE5; box-sizing: border-box; background: {{t.shade}}"></div>
+</sc-for>
+<sc-if value="{{showToday}}" hint-placeholder-val="{{true}}">
+<div style="position: absolute; top: 0; bottom: 0; left: {{todayLeft}}; width: 2px; margin-left: -1px; background: #D9774A; z-index: 2"></div>
+</sc-if>
+<div style="position: relative; z-index: 1; padding-top: 14px">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #24506B">COMMITTED <span style="background: #E3EEF4; color: #163A50; padding: 1px 7px; border-radius: 999px; letter-spacing: 0">{{cCount}}</span></div>
+<div style="position: relative; margin-top: 8px; height: {{cLane.height}}">
+<sc-for list="{{cLane.items}}" as="it" hint-placeholder-count="4">
+<div style="position: absolute; left: {{it.left}}; top: {{it.top}}; width: {{it.width}}; min-width: 12px; height: 32px">
+<button type="button" onClick="{{it.pick}}" aria-label="{{it.title}}" style="position: absolute; top: 0; left: 0; width: 100%; min-width: 12px; height: 32px; border: 0; border-radius: 8px; background: #24506B; color: #FFFFFF; font-size: 13px; font-weight: 600; text-align: left; padding: 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; box-sizing: border-box; box-shadow: {{it.ring}}">{{it.inLabel}}</button>
+<sc-if value="{{it.outR}}" hint-placeholder-val="{{false}}"><span style="position: absolute; left: calc(100% + 6px); top: 7px; font-size: 13px; font-weight: 600; color: #1D2733; white-space: nowrap; pointer-events: none">{{it.title}}</span></sc-if>
+<sc-if value="{{it.outL}}" hint-placeholder-val="{{false}}"><span style="position: absolute; right: calc(100% + 6px); top: 7px; font-size: 13px; font-weight: 600; color: #1D2733; white-space: nowrap; pointer-events: none">{{it.title}}</span></sc-if>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 12px; border-top: 1px dashed #E4DFD4; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #9A4520">ON THE RADAR <span style="background: #FBEDE4; color: #8A3A17; padding: 1px 7px; border-radius: 999px; letter-spacing: 0">{{rCount}}</span><span style="font-weight: 500; letter-spacing: 0; color: #5B6572">not committed — no calendar holds yet</span></div>
+<div style="position: relative; margin-top: 8px; height: {{rLane.height}}">
+<sc-for list="{{rLane.items}}" as="it" hint-placeholder-count="4">
+<div style="position: absolute; left: {{it.left}}; top: {{it.top}}; width: {{it.width}}; min-width: 12px; height: 32px">
+<button type="button" onClick="{{it.pick}}" aria-label="{{it.title}}" style="position: absolute; top: 0; left: 0; width: 100%; min-width: 12px; height: 32px; border: 1.5px dashed #D9774A; border-radius: 8px; background: #FBEDE4; color: #8A3A17; font-size: 13px; font-weight: 600; text-align: left; padding: 0 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; box-sizing: border-box; box-shadow: {{it.ring}}">{{it.inLabel}}</button>
+<sc-if value="{{it.outR}}" hint-placeholder-val="{{false}}"><span style="position: absolute; left: calc(100% + 6px); top: 7px; font-size: 13px; font-weight: 500; color: #8A3A17; white-space: nowrap; pointer-events: none">{{it.title}}</span></sc-if>
+<sc-if value="{{it.outL}}" hint-placeholder-val="{{false}}"><span style="position: absolute; right: calc(100% + 6px); top: 7px; font-size: 13px; font-weight: 500; color: #8A3A17; white-space: nowrap; pointer-events: none">{{it.title}}</span></sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<div style="display: flex; gap: 16px; flex-grow: 1; min-height: 0">
+<section aria-label="Selected plan" style="flex-grow: 1; min-width: 0; background: #FFFFFF; border: 1px solid #E4DFD4; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box">
+<div style="display: flex; align-items: center; gap: 8px">
+<sc-if value="{{sel.isRadar}}" hint-placeholder-val="{{true}}"><span style="font-size: 12px; font-weight: 700; background: #FBEDE4; color: #8A3A17; border: 1px dashed #D9774A; padding: 3px 10px; border-radius: 999px">On the radar</span></sc-if>
+<sc-if value="{{sel.isCommitted}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; font-weight: 700; background: #E3EEF4; color: #163A50; padding: 4px 10px; border-radius: 999px">Committed · on {{sel.calName}}</span></sc-if>
+<span style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #3A4552; padding: 3px 10px 3px 4px; border-radius: 999px; border: 1px solid #E4DFD4"><span style="width: 16px; height: 16px; border-radius: 5px; background: {{sel.circleColor}}"></span>{{sel.circleName}}</span>
+<span style="flex-grow: 1"></span>
+<span style="font-size: 13px; color: #5B6572; font-weight: 500">{{sel.away}}</span>
+</div>
+<h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 22px; font-weight: 600">{{sel.title}}</h2>
+<div style="display: flex; align-items: center; gap: 16px; font-size: 14px; color: #3A4552">
+<span style="display: flex; align-items: center; gap: 6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>{{sel.when}}</span>
+<span style="display: flex; align-items: center; gap: 6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>{{sel.place}}</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="display: flex">
+<sc-for list="{{sel.people}}" as="p" hint-placeholder-count="3">
+<span title="{{p.name}}" style="width: 28px; height: 28px; margin-right: -6px; border: 2px solid #FFFFFF; border-radius: 999px; color: #FFFFFF; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; background: {{p.color}}">{{p.ini}}</span>
+</sc-for>
+</div>
+<span style="font-size: 13px; color: #5B6572; margin-left: 8px">{{sel.note}}</span>
+</div>
+<div style="flex-grow: 1"></div>
+<sc-if value="{{sel.isRadar}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; gap: 8px">
+<button type="button" onClick="{{commitSel}}" style="height: 44px; padding: 0 16px; border: 0; border-radius: 12px; background: #24506B; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">{{sel.commitLabel}}</button>
+<button type="button" style="height: 44px; padding: 0 16px; border: 1px solid #D6D0C3; border-radius: 12px; background: #FFFFFF; color: #1D2733; font-size: 14px; font-weight: 600; cursor: pointer">Ask the circle</button>
+<button type="button" style="height: 44px; padding: 0 16px; border: 1px solid #D6D0C3; border-radius: 12px; background: #FFFFFF; color: #1D2733; font-size: 14px; font-weight: 600; cursor: pointer">Remind me later</button>
+</div>
+</sc-if>
+<sc-if value="{{sel.isCommitted}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; gap: 8px">
+<button type="button" style="height: 44px; padding: 0 16px; border: 1px solid #D6D0C3; border-radius: 12px; background: #FFFFFF; color: #1D2733; font-size: 14px; font-weight: 600; cursor: pointer">Open in Google Calendar</button>
+<button type="button" style="height: 44px; padding: 0 16px; border: 1px solid #D6D0C3; border-radius: 12px; background: #FFFFFF; color: #1D2733; font-size: 14px; font-weight: 600; cursor: pointer">Invite others</button>
+<a href="Assistant.dc.html" style="display: flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 12px; background: #E3EEF4; color: #163A50; font-size: 14px; font-weight: 600; text-decoration: none; box-sizing: border-box">Plan it with Breeze</a>
+</div>
+</sc-if>
+</section>
+
+<section aria-label="Breeze noticed" style="width: 320px; flex-shrink: 0; background: #FBF9F4; border: 1px solid #E4DFD4; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D9774A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Breeze noticed</div>
+<div style="font-size: 13px; line-height: 1.45; color: #3A4552"><strong style="color: #1D2733">Harvest tasting tickets open Oct 1.</strong> Want a reminder that morning?</div>
+<div style="font-size: 13px; line-height: 1.45; color: #3A4552"><strong style="color: #1D2733">Sam's flight home isn't booked.</strong> Thanksgiving week is 9 weeks out.</div>
+<div style="font-size: 13px; line-height: 1.45; color: #3A4552"><strong style="color: #1D2733">Lisbon in June:</strong> I'm watching fares and will flag a good price.</div>
+</section>
+</div>
+</main>
+
+<aside style="width: 360px; flex-shrink: 0; border-left: 1px solid #E4DFD4; background: #FFFFFF; box-sizing: border-box; padding: 26px 20px 20px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: center; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D9774A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg><h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 21px; font-weight: 600">Ask Breeze</h2></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="ask" style="font-size: 13px; color: #5B6572">Ask about events, open dates or ideas</label>
+<div style="display: flex; gap: 8px">
+<input id="ask" type="text" placeholder="Find a wine tasting in October" style="flex-grow: 1; min-width: 0; height: 44px; border: 1px solid #D6D0C3; border-radius: 12px; padding: 0 14px; font-size: 14px; color: #1D2733; background: #FBF9F4; box-sizing: border-box">
+<a href="Assistant.dc.html" aria-label="Ask Breeze" style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px; background: #24506B; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<a href="Assistant.dc.html" style="font-size: 12px; font-weight: 600; color: #163A50; background: #E3EEF4; padding: 6px 10px; border-radius: 999px; text-decoration: none">Free Saturdays in November</a>
+<a href="Assistant.dc.html" style="font-size: 12px; font-weight: 600; color: #163A50; background: #E3EEF4; padding: 6px 10px; border-radius: 999px; text-decoration: none">Kid-friendly this weekend</a>
+<a href="Assistant.dc.html" style="font-size: 12px; font-weight: 600; color: #163A50; background: #E3EEF4; padding: 6px 10px; border-radius: 999px; text-decoration: none">Ideas for Porto</a>
+</div>
+</div>
+<div style="height: 1px; background: #E4DFD4"></div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 15px; font-weight: 700">Found for you</div>
+<div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #5B6572"><span style="width: 7px; height: 7px; border-radius: 999px; background: #3F7A5A"></span>Always searching · last update 12 min ago</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1; min-height: 0; overflow-y: auto">
+<sc-for list="{{sugg}}" as="s" hint-placeholder-count="3">
+<article style="border: 1px solid #E4DFD4; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 12px; font-weight: 700; color: #9A4520">{{s.dateLabel}}</div>
+<div style="font-size: 15px; font-weight: 600; line-height: 1.3">{{s.title}}</div>
+<div style="font-size: 13px; color: #5B6572; line-height: 1.4">{{s.reason}}</div>
+<div style="display: flex; gap: 8px; margin-top: 2px">
+<sc-if value="{{s.notAdded}}" hint-placeholder-val="{{true}}">
+<button type="button" onClick="{{s.add}}" style="height: 36px; padding: 0 12px; border: 1.5px dashed #D9774A; border-radius: 10px; background: #FBEDE4; color: #8A3A17; font-size: 13px; font-weight: 700; cursor: pointer">Add to radar</button>
+<button type="button" onClick="{{s.dismiss}}" style="height: 36px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: #5B6572; font-size: 13px; font-weight: 600; cursor: pointer">Not for us</button>
+</sc-if>
+<sc-if value="{{s.added}}" hint-placeholder-val="{{false}}">
+<span style="display: flex; align-items: center; gap: 6px; height: 36px; font-size: 13px; font-weight: 700; color: #3F7A5A"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>On your radar</span>
+</sc-if>
+</div>
+</article>
+</sc-for>
+</div>
+<a href="Discover.dc.html" style="font-size: 14px; font-weight: 600; text-decoration: none">See all suggestions →</a>
+</aside>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { zoom: 'twomonth', off: {}, sel: 'r1', added: {}, committed: {}, dismissed: {} };
+  }
+  renderVals() {
+    const st = this.state;
+    const DAY = 86400000;
+    const D = (s) => Date.UTC(+s.slice(0, 4), +s.slice(5, 7) - 1, +s.slice(8, 10));
+    const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const md = (t) => { const d = new Date(t); return MON[d.getUTCMonth()] + ' ' + d.getUTCDate(); };
+    const yr = (t) => new Date(t).getUTCFullYear();
+    const TODAY = D('2026-09-24');
+
+    const people = [
+      { id: 'me', name: 'Me', ini: 'MH', color: '#24506B' },
+      { id: 'dana', name: 'Dana', ini: 'DH', color: '#6B4F99' },
+      { id: 'maya', name: 'Maya', ini: 'MA', color: '#3F7A5A' },
+      { id: 'sam', name: 'Sam', ini: 'SA', color: '#A35A16' },
+      { id: 'parents', name: 'Mom & Dad', ini: 'MD', color: '#A0445B' },
+      { id: 'parks', name: 'The Parks', ini: 'PK', color: '#46698F' }
+    ];
+    const pmap = {};
+    people.forEach((p) => { pmap[p.id] = p; });
+    const FAM = ['me', 'dana', 'maya', 'sam'];
+
+    const raw = [
+      ['c1', "Maya's soccer tournament", '2026-10-03', '2026-10-04', 'c', ['me','dana','maya'], 'Regional sports park', 'Carpool with the Parks on Saturday', 'family'],
+      ['c2', 'Parent-teacher conference', '2026-10-08', '2026-10-08', 'c', ['me','dana'], "Maya's school", '4:15 pm slot', 'family'],
+      ['c3', "Mom's 70th birthday dinner", '2026-10-17', '2026-10-17', 'c', FAM.concat(['parents']), 'Restaurant TBD — Dana is booking', 'Table for 9 at 7:00 pm', 'family'],
+      ['c4', 'Napa weekend with the Parks', '2026-10-23', '2026-10-25', 'c', ['me','dana','parks'], 'Napa Valley', 'Grandparents have Maya', 'crew'],
+      ['c5', 'Sam home for fall break', '2026-11-21', '2026-11-29', 'c', FAM, 'Home', 'Flight not booked yet', 'family'],
+      ['c6', "Thanksgiving at Aunt Lisa's", '2026-11-26', '2026-11-26', 'c', FAM.concat(['parents']), "Aunt Lisa's", 'We bring pies', 'family'],
+      ['c7', "Dana's work holiday party", '2026-12-12', '2026-12-12', 'c', ['me','dana'], 'Downtown', 'Sitter needed', 'me'],
+      ['c8', 'Winter break at the Tahoe cabin', '2026-12-22', '2026-12-29', 'c', FAM, 'Lake Tahoe', 'Chains in the car', 'family'],
+      ['c9', "Sam's graduation", '2027-05-22', '2027-05-22', 'c', FAM.concat(['parents']), 'Campus', 'Hotel booked', 'family'],
+      ['c10', 'Europe: Lisbon & Porto', '2027-06-12', '2027-06-26', 'c', FAM, 'Portugal', '15 days · flights not booked', 'family'],
+      ['r1', 'Harvest wine tasting, Sonoma', '2026-10-10', '2026-10-10', 'r', ['me','dana'], 'Sonoma, CA', 'Saved from an email newsletter', 'wine'],
+      ['r2', 'Pumpkin patch & corn maze', '2026-10-11', '2026-10-11', 'r', ['me','dana','maya'], 'Half Moon Bay', 'Maya asked twice', 'family'],
+      ['r3', 'Jazz on the waterfront', '2026-10-30', '2026-10-30', 'r', ['me','dana'], 'The pier', 'Found by Breeze', 'me'],
+      ['r4', 'Día de los Muertos festival', '2026-11-01', '2026-11-01', 'r', FAM, 'Mission district', 'Free, all ages', 'family'],
+      ['r5', 'Friendsgiving — maybe host?', '2026-11-14', '2026-11-14', 'r', ['me','dana','parks'], 'Our place', 'Parks are in', 'crew'],
+      ['r6', 'Holiday concert', '2026-12-06', '2026-12-06', 'r', ['me','dana','parents'], 'Symphony hall', 'Mom would love this', 'family'],
+      ['r7', 'Holiday lights boat parade', '2026-12-13', '2026-12-13', 'r', FAM, 'The harbor', 'Evening, bring blankets', 'family'],
+      ['r8', 'Ski weekend', '2027-01-15', '2027-01-18', 'r', FAM.concat(['parks']), 'Tahoe', 'Long weekend', 'crew'],
+      ['r9', 'Cherry blossom festival', '2027-04-10', '2027-04-11', 'r', ['me','dana','maya'], 'Japantown', 'Saved from a web page', 'family'],
+      ['r10', 'Add Paris to the Europe trip', '2027-06-27', '2027-06-30', 'r', FAM, 'Paris', 'Train from Porto?', 'family'],
+      ['r11', 'Yosemite camping', '2027-08-06', '2027-08-09', 'r', FAM.concat(['parks']), 'Yosemite', 'Reservations open 5 months ahead', 'crew']
+    ];
+    const suggRaw = [
+      ['s1', 'Outdoor movie night in the park', '2026-10-09', '2026-10-09', ['me','dana','maya'], 'Downtown green', 'Kid-friendly · your Friday evening is open', 'family'],
+      ['s2', 'Winemaker dinner in Healdsburg', '2026-11-07', '2026-11-07', ['me','dana'], 'Healdsburg', 'You have saved 3 wine events this fall', 'wine'],
+      ['s3', 'Festa de Santo António, Lisbon', '2027-06-12', '2027-06-13', FAM, 'Alfama, Lisbon', 'Falls on your first night in Lisbon', 'family']
+    ];
+    const toEv = (a, lane) => ({ id: a[0], title: a[1], s: D(a[2]), e: D(a[3]), lane: lane || a[4], who: lane ? a[4] : a[5], place: lane ? a[5] : a[6], note: lane ? a[6] : a[7], circle: lane ? a[7] : a[8] });
+    let events = raw.map((a) => toEv(a));
+    const suggEv = suggRaw.map((a) => toEv(a, 'r'));
+    events = events.concat(suggEv.filter((x) => st.added[x.id]));
+    events = events.map((e) => (st.committed[e.id] ? Object.assign({}, e, { lane: 'c' }) : e));
+    const circles = [
+      { id: 'me', name: 'Me', ini: 'MH', color: '#24506B', calendar: 'Google · Personal', hint: 'Plans just for you' },
+      { id: 'family', name: 'Family', color: '#3F7A5A', calendar: 'Google · Family', members: 5 },
+      { id: 'crew', name: 'Weekend crew', color: '#46698F', calendar: null, members: 4 },
+      { id: 'wine', name: 'Wine club', color: '#A0445B', calendar: null, members: 6 }
+    ];
+    const cmap = {};
+    circles.forEach((c) => { cmap[c.id] = c; });
+    const calOf = (c) => c.calendar || 'Google · Personal';
+    const visible = events.filter((e) => !st.off[e.circle]);
+
+    const zooms = [
+      { id: 'month', label: 'Month', rs: '2026-09-21', re: '2026-10-26', tick: 'week', range: 'Sep 21 – Oct 25, 2026' },
+      { id: 'twomonth', label: '2 months', rs: '2026-09-21', re: '2026-11-30', tick: 'week', range: 'Sep 21 – Nov 29, 2026' },
+      { id: 'quarter', label: 'Quarter', rs: '2026-09-01', re: '2027-01-01', tick: 'month', range: 'Sep – Dec 2026' },
+      { id: 'year', label: 'Year+', rs: '2026-09-01', re: '2027-09-01', tick: 'month', range: 'Sep 2026 – Aug 2027' }
+    ];
+    const z = zooms.find((x) => x.id === st.zoom) || zooms[1];
+    const rs = D(z.rs), re = D(z.re), span = re - rs;
+    const pct = (t) => ((t - rs) / span) * 100;
+
+    const tickTimes = [];
+    if (z.tick === 'week') {
+      for (let t = rs; t < re; t += 7 * DAY) tickTimes.push(t);
+    } else {
+      let d = new Date(rs);
+      while (d.getTime() < re) {
+        tickTimes.push(d.getTime());
+        d = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1));
+      }
+    }
+    const ticks = tickTimes.map((t, i) => {
+      const next = i + 1 < tickTimes.length ? tickTimes[i + 1] : re;
+      const d = new Date(t);
+      const label = z.tick === 'week' ? md(t) : MON[d.getUTCMonth()];
+      const sub = z.tick === 'month' && (i === 0 || d.getUTCMonth() === 0) ? String(d.getUTCFullYear()) : '';
+      return { left: pct(t) + '%', width: (pct(next) - pct(t)) + '%', label: label, sub: sub, shade: i % 2 ? 'rgba(29,39,51,0.022)' : 'transparent' };
+    });
+
+    const TRACK = 752;
+    const pack = (list) => {
+      const rowsEnd = [];
+      const items = [];
+      list.slice().sort((a, b) => a.s - b.s).forEach((e) => {
+        const s = Math.max(e.s, rs);
+        const en = Math.min(e.e + DAY, re);
+        if (en <= rs || s >= re) return;
+        const left = pct(s);
+        const w = pct(en) - left;
+        const barPx = Math.max((w / 100) * TRACK, 12);
+        const labelPx = e.title.length * 6.9 + 22;
+        const inside = barPx >= labelPx;
+        let outR = false, outL = false, a = left, b = left + (barPx / TRACK) * 100;
+        if (!inside) {
+          const rightEnd = left + ((barPx + 6 + labelPx - 18) / TRACK) * 100;
+          if (rightEnd <= 100) { outR = true; b = rightEnd; }
+          else { outL = true; a = left - ((labelPx - 12) / TRACK) * 100; }
+        }
+        let row = rowsEnd.findIndex((x) => x < a - 0.6);
+        if (row === -1) { row = rowsEnd.length; rowsEnd.push(0); }
+        rowsEnd[row] = b;
+        const selected = st.sel === e.id;
+        items.push({
+          id: e.id, title: e.title, left: left + '%', width: w + '%', top: row * 42 + 'px',
+          inLabel: inside ? e.title : '', outR: outR, outL: outL,
+          ring: selected ? '0 0 0 2px #FFFFFF, 0 0 0 4px #1D2733' : 'none',
+          pick: () => this.setState({ sel: e.id })
+        });
+      });
+      return { items: items, height: Math.max(rowsEnd.length, 1) * 42 + 'px' };
+    };
+    const cLane = pack(visible.filter((e) => e.lane === 'c'));
+    const rLane = pack(visible.filter((e) => e.lane === 'r'));
+
+    const whenOf = (e) => {
+      const a = new Date(e.s), b = new Date(e.e);
+      if (e.s === e.e) return WD[a.getUTCDay()] + ', ' + md(e.s) + ', ' + yr(e.s);
+      if (a.getUTCMonth() === b.getUTCMonth()) return MON[a.getUTCMonth()] + ' ' + a.getUTCDate() + ' – ' + b.getUTCDate() + ', ' + yr(e.s);
+      return md(e.s) + ' – ' + md(e.e) + ', ' + yr(e.e);
+    };
+    const selEv = events.find((e) => e.id === st.sel) || events[0];
+    const days = Math.round((selEv.s - TODAY) / DAY);
+    const away = days <= 0 ? 'Today' : days === 1 ? 'Tomorrow' : days > 60 ? 'In about ' + Math.round(days / 30.4) + ' months' : 'In ' + days + ' days';
+    const sel = {
+      title: selEv.title, when: whenOf(selEv), place: selEv.place, note: selEv.note, away: away,
+      isRadar: selEv.lane === 'r', isCommitted: selEv.lane === 'c',
+      people: selEv.who.map((w) => pmap[w]),
+      circleName: cmap[selEv.circle].id === 'me' ? 'Just me' : cmap[selEv.circle].name + ' circle',
+      circleColor: cmap[selEv.circle].color,
+      calName: calOf(cmap[selEv.circle]),
+      commitLabel: cmap[selEv.circle].calendar ? 'Commit & add to ' + cmap[selEv.circle].calendar.replace('Google · ', '') + ' calendar' : 'Commit & add to my calendar'
+    };
+
+    const sugg = suggRaw.filter((a) => !st.dismissed[a[0]]).map((a) => {
+      const ev = suggEv.find((x) => x.id === a[0]);
+      const added = !!st.added[a[0]];
+      return {
+        title: a[1], reason: a[6], dateLabel: whenOf(ev), added: added, notAdded: !added,
+        add: () => this.setState({ added: Object.assign({}, st.added, { [a[0]]: true }), sel: a[0] }),
+        dismiss: () => this.setState({ dismissed: Object.assign({}, st.dismissed, { [a[0]]: true }) })
+      };
+    });
+
+    return {
+      zooms: zooms.map((x) => {
+        const on = x.id === z.id;
+        return { label: x.label, pressed: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', color: on ? '#1D2733' : '#5B6572', shadow: on ? '0 1px 3px rgba(29,39,51,0.12)' : 'none', pick: () => this.setState({ zoom: x.id }) };
+      }),
+      rangeLabel: z.range,
+      chips: circles.map((c) => {
+        const off = !!st.off[c.id];
+        return {
+          name: c.name, ini: c.ini || '', color: c.color, isMe: c.id === 'me', isCircle: c.id !== 'me',
+          count: c.members ? String(c.members) : '',
+          hint: c.hint || (c.members + ' people · ' + (c.calendar ? 'adds to ' + c.calendar : 'adds to your default calendar')),
+          pressed: off ? 'false' : 'true',
+          bg: off ? 'transparent' : '#FFFFFF', border: off ? '#D6D0C3' : '#CFC8B9', opacity: off ? '0.5' : '1',
+          pick: () => this.setState({ off: Object.assign({}, st.off, { [c.id]: !off }) })
+        };
+      }),
+      ticks: ticks,
+      showToday: TODAY >= rs && TODAY < re,
+      todayLeft: pct(TODAY + DAY / 2) + '%',
+      cLane: cLane, rLane: rLane,
+      cCount: cLane.items.length, rCount: rLane.items.length,
+      sel: sel,
+      commitSel: () => this.setState({ committed: Object.assign({}, st.committed, { [selEv.id]: true }) }),
+      sugg: sugg,
+      true: true, false: false
+    };
+  }
+}
+</script>
+</body>
+</html>

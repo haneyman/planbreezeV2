@@ -1,0 +1,68 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* PlanBreeze tokens (see docs/03-design-system.md) */
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+
+  --color-paper: #f6f3ec;
+  --color-paper-raised: #fbf9f4;
+  --color-line: #e4dfd4;
+
+  /* sea: primary, committed plans (#24506B = 700) */
+  --color-sea-50: #eef5f9;
+  --color-sea-100: #e3eef4;
+  --color-sea-200: #c3dae7;
+  --color-sea-300: #93bcd3;
+  --color-sea-400: #5e97b8;
+  --color-sea-500: #3c789c;
+  --color-sea-600: #2e6283;
+  --color-sea-700: #24506b;
+  --color-sea-800: #1e4358;
+  --color-sea-900: #163a50;
+  --color-sea-950: #0e2533;
+
+  /* coral: radar items, Breeze (#D9774A = 500) */
+  --color-coral-50: #fdf5f0;
+  --color-coral-100: #fbede4;
+  --color-coral-200: #f6d5c2;
+  --color-coral-300: #efb595;
+  --color-coral-400: #e59468;
+  --color-coral-500: #d9774a;
+  --color-coral-600: #c25f33;
+  --color-coral-700: #9a4520;
+  --color-coral-800: #8a3a17;
+  --color-coral-900: #6e2f14;
+  --color-coral-950: #3d180a;
+}
+
+:root {
+  --ui-primary: var(--ui-color-primary-700);
+  --ui-secondary: var(--ui-color-secondary-600);
+  --ui-radius: 0.625rem;
+  --ui-text: #1d2733;
+  --ui-text-muted: #5b6572;
+  --ui-border: #e4dfd4;
+}
+
+body {
+  background: var(--color-paper);
+  color: #1d2733;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+/* Radar items: dashed coral, distinct from solid committed bars in fill and lightness */
+.radar-bar {
+  background: var(--color-coral-100);
+  border: 1.5px dashed var(--color-coral-500);
+  color: var(--color-coral-800);
+}
+.committed-bar {
+  background: var(--color-sea-700);
+  color: #fff;
+}

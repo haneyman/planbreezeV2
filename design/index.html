@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PlanBreeze — Design gallery</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=DM+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root { --ground:#F6F3EC; --ink:#1D2733; --muted:#5B6572; --line:#E4DFD4; --sea:#24506B; --coral:#D9774A; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font-family: 'DM Sans', system-ui, sans-serif; }
+  header { max-width: 1200px; margin: 0 auto; padding: 48px 24px 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-family: Fraunces, Georgia, serif; font-size: 22px; font-weight: 600; }
+  h1 { font-family: Fraunces, Georgia, serif; font-size: 40px; margin: 20px 0 8px; letter-spacing: -0.015em; }
+  p.lede { margin: 0; color: var(--muted); font-size: 16px; max-width: 720px; line-height: 1.5; }
+  main { max-width: 1200px; margin: 0 auto; padding: 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+  .card img { width: 100%; display: block; border-bottom: 1px solid var(--line); background: #eee; }
+  .card.phone img { width: auto; height: 420px; margin: 16px auto 0; border: 1px solid var(--line); border-radius: 12px; }
+  .body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
+  .body h2 { margin: 0; font-size: 18px; }
+  .body p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.45; flex-grow: 1; }
+  .links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .links a { font-size: 13px; font-weight: 600; text-decoration: none; padding: 8px 12px; border-radius: 10px; }
+  .links a.primary { background: var(--sea); color: #fff; }
+  .links a.secondary { background: #E3EEF4; color: #163A50; }
+  footer { max-width: 1200px; margin: 0 auto; padding: 8px 24px 48px; color: var(--muted); font-size: 13px; }
+  a { color: var(--sea); }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#24506B" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 10h13a3.5 3.5 0 1 0-3.5-3.5"/><path d="M4 15h18a3.5 3.5 0 1 1-3.5 3.5"/><path d="M4 20h8" stroke="#D9774A"/></svg>
+    PlanBreeze
+  </div>
+  <h1>Design gallery</h1>
+  <p class="lede">Six screens from the first design pass (September 24, 2026). “Open clickable” runs the interactive mockup in your browser; the sidebar links move between screens. Sample data only.</p>
+</header>
+<main>
+  <article class="card">
+    <img src="screenshots/Main.png" alt="Planner screen at 2-month zoom">
+    <div class="body">
+      <h2>Planner — zoomable timeline</h2>
+      <p>Committed and on-the-radar lanes, zoom from Month to Year+, Me + circle filter chips, plan details, Breeze noticed, and the Ask Breeze side panel.</p>
+      <div class="links">
+        <a class="primary" href="screens/Main.dc.html">Open clickable</a>
+        <a class="secondary" href="screenshots/Main-month.png">Month view</a>
+        <a class="secondary" href="screenshots/Main-year.png">Year+ view</a>
+      </div>
+    </div>
+  </article>
+  <article class="card">
+    <img src="screenshots/Assistant.png" alt="Ask Breeze chat screen">
+    <div class="body">
+      <h2>Ask Breeze — AI assistant</h2>
+      <p>“Find a wine tasting event in October” answered with calendar-fit checks, an availability answer, and background standing searches.</p>
+      <div class="links"><a class="primary" href="screens/Assistant.dc.html">Open clickable</a></div>
+    </div>
+  </article>
+  <article class="card">
+    <img src="screenshots/Capture.png" alt="Browser extension capturing an event">
+    <div class="body">
+      <h2>Add from anywhere</h2>
+      <p>The browser extension reads an event page and pre-fills a plan. It also shows the other capture channels: email forwarding, Gmail, phone share, flyer photos and paste.</p>
+      <div class="links"><a class="primary" href="screens/Capture.dc.html">Open clickable</a></div>
+    </div>
+  </article>
+  <article class="card">
+    <img src="screenshots/Discover.png" alt="Discover suggestions feed">
+    <div class="body">
+      <h2>Discover — continuous suggestions</h2>
+      <p>What Breeze found, grouped by reason, with fit and conflict flags and one-click Add to radar or Not for us.</p>
+      <div class="links"><a class="primary" href="screens/Discover.dc.html">Open clickable</a></div>
+    </div>
+  </article>
+  <article class="card">
+    <img src="screenshots/Settings.png" alt="Calendars and circle settings">
+    <div class="body">
+      <h2>Calendars &amp; circles</h2>
+      <p>Google connected, plus Apple iCloud, Yahoo and Outlook. Also covers the sync rules and your list of circles, each with members (email + label) and an optional linked calendar.</p>
+      <div class="links"><a class="primary" href="screens/Settings.dc.html">Open clickable</a> <a class="secondary" href="screenshots/Settings-new-circle.png">New circle form</a></div>
+    </div>
+  </article>
+  <article class="card phone">
+    <img src="screenshots/Mobile.png" alt="Mobile share sheet">
+    <div class="body">
+      <h2>Mobile — share an email</h2>
+      <p>Sharing an email from the phone turns it into a radar item in two taps.</p>
+      <div class="links"><a class="primary" href="screens/Mobile.dc.html">Open clickable</a></div>
+    </div>
+  </article>
+</main>
+<footer>Design notes and known issues: <a href="README.md">design/README.md</a> · Product docs: <a href="../docs/">docs/</a></footer>
+</body>
+</html>

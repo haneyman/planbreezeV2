@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PlanBreeze — Calendars and circles</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'DM Sans',system-ui,sans-serif;background:#F6F3EC;color:#1D2733}
+a{color:#24506B}a:hover{color:#163A50}
+button,input,select{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; display: flex; background: #F6F3EC; overflow: hidden; font-family: 'DM Sans', system-ui, sans-serif; color: #1D2733">
+
+<aside style="width: 232px; flex-shrink: 0; box-sizing: border-box; padding: 24px 16px; display: flex; flex-direction: column; gap: 28px; border-right: 1px solid #E4DFD4; background: #FBF9F4">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px">
+<svg width="30" height="30" viewBox="0 0 28 28" fill="none" stroke="#24506B" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 10h13a3.5 3.5 0 1 0-3.5-3.5"></path><path d="M4 15h18a3.5 3.5 0 1 1-3.5 3.5"></path><path d="M4 20h8" stroke="#D9774A"></path></svg>
+<span style="font-family: Fraunces, Georgia, serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em">PlanBreeze</span>
+</div>
+<nav aria-label="Main" style="display: flex; flex-direction: column; gap: 2px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Planner</a>
+<a href="Discover.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><path d="M12 12l6-6"></path></svg><span style="flex-grow: 1">Discover</span><span style="font-size: 11px; font-weight: 700; background: #FBEDE4; color: #8A3A17; padding: 2px 8px; border-radius: 999px">6 new</span></a>
+<a href="Assistant.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Ask Breeze</a>
+<a href="Capture.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #3A4552; font-weight: 500; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add from anywhere</a>
+<a href="Settings.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; background: #E3EEF4; color: #163A50; font-weight: 600; font-size: 14px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .6 3.2 2.5 3.5 5.5"></path></svg>Calendars &amp; circles</a>
+</nav>
+</aside>
+
+<main style="flex-grow: 1; min-width: 0; box-sizing: border-box; padding: 28px 36px; display: flex; flex-direction: column; gap: 20px">
+<h1 style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 34px; font-weight: 600; letter-spacing: -0.015em">Calendars &amp; circles</h1>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; flex-grow: 1; min-height: 0">
+
+<div style="display: flex; flex-direction: column; gap: 16px">
+<section aria-label="Connected calendars" style="background: #FFFFFF; border: 1px solid #E4DFD4; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 17px; font-weight: 700">Connected calendars</h2>
+<div style="border: 1px solid #E4DFD4; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 36px; height: 36px; border-radius: 10px; background: #E3EEF4; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#24506B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>
+<div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 700">Google Calendar</div><div style="font-size: 12px; color: #2C6B49; font-weight: 600">Connected · two-way sync · 2 min ago</div></div>
+<button type="button" style="height: 36px; padding: 0 12px; border: 1px solid #D6D0C3; border-radius: 10px; background: #FFFFFF; font-size: 13px; font-weight: 600; cursor: pointer; color: #1D2733">Manage</button>
+</div>
+<sc-for list="{{gcals}}" as="g" hint-placeholder-count="4">
+<label style="display: flex; align-items: center; gap: 10px; font-size: 13px; padding-left: 48px; cursor: pointer"><input type="checkbox" checked="{{g.on}}" onChange="{{g.toggle}}" style="width: 18px; height: 18px; accent-color: #24506B"><span style="width: 10px; height: 10px; border-radius: 3px; background: {{g.color}}"></span><span style="flex-grow: 1">{{g.name}}</span><span style="color: #5B6572; font-size: 12px">{{g.mode}}</span></label>
+</sc-for>
+</div>
+<sc-for list="{{others}}" as="o" hint-placeholder-count="3">
+<div style="border: 1px solid #E4DFD4; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px">
+<span style="width: 36px; height: 36px; border-radius: 10px; background: #F1EDE5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6572" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>
+<div style="flex-grow: 1"><div style="font-size: 15px; font-weight: 700">{{o.name}}</div><div style="font-size: 12px; color: {{o.subColor}}">{{o.sub}}</div></div>
+<button type="button" onClick="{{o.connect}}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; background: {{o.btnBg}}; color: {{o.btnColor}}">{{o.btn}}</button>
+</div>
+</sc-for>
+</section>
+
+<section aria-label="Sync rules" style="background: #FFFFFF; border: 1px solid #E4DFD4; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 17px; font-weight: 700">How plans sync</h2>
+<div style="display: flex; align-items: center; gap: 12px; font-size: 14px"><label for="commit-to" style="flex-grow: 1">Committed plans that are just for me go to</label><select id="commit-to" style="height: 38px; border: 1px solid #D6D0C3; border-radius: 10px; padding: 0 10px; font-size: 13px; background: #FFFFFF; color: #1D2733"><option>Google · Personal</option><option>Google · Family</option></select></div>
+<p style="margin: -4px 0 0; font-size: 12px; line-height: 1.5; color: #5B6572">Circle plans go to that circle's linked calendar. Circles without one use this calendar too.</p>
+<fieldset style="border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px">
+<legend style="font-size: 14px; margin-bottom: 8px; padding: 0">Radar items on my calendar</legend>
+<sc-for list="{{radarOpts}}" as="r" hint-placeholder-count="3">
+<label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer"><input type="radio" name="radar-mode" checked="{{r.on}}" onChange="{{r.pick}}" style="width: 18px; height: 18px; accent-color: #24506B">{{r.label}}</label>
+</sc-for>
+</fieldset>
+</section>
+</div>
+
+<section aria-label="Circles" style="background: #FFFFFF; border: 1px solid #E4DFD4; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 848px; overflow-y: auto; box-sizing: border-box">
+<div style="display: flex; align-items: flex-start; gap: 12px">
+<div style="flex-grow: 1">
+<h2 style="margin: 0; font-size: 17px; font-weight: 700">Circles</h2>
+<p style="margin: 4px 0 0; font-size: 13px; line-height: 1.5; color: #5B6572">The groups you plan with. Each circle can link to a calendar, so committed plans land there automatically.</p>
+</div>
+<button type="button" onClick="{{toggleForm}}" aria-expanded="{{formExpanded}}" style="height: 40px; flex-shrink: 0; padding: 0 14px; border: 0; border-radius: 10px; background: #24506B; color: #FFFFFF; font-size: 13px; font-weight: 700; cursor: pointer">New circle</button>
+</div>
+
+<sc-if value="{{showForm}}" hint-placeholder-val="{{false}}">
+<form onSubmit="{{create}}" style="flex-shrink: 0; background: #FBF9F4; border: 1px solid #E4DFD4; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 15px; font-weight: 700">New circle</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 4px"><label for="nc-name" style="font-size: 12px; font-weight: 600; color: #3A4552">Circle name</label><input id="nc-name" type="text" value="{{draftName}}" onInput="{{setDraftName}}" placeholder="e.g. Book club" style="height: 40px; border: 1px solid #D6D0C3; border-radius: 10px; padding: 0 12px; font-size: 14px; color: #1D2733; background: #FFFFFF"></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><label for="nc-cal" style="font-size: 12px; font-weight: 600; color: #3A4552">Linked calendar (optional)</label><select id="nc-cal" onChange="{{setDraftCal}}" style="height: 40px; border: 1px solid #D6D0C3; border-radius: 10px; padding: 0 10px; font-size: 13px; color: #1D2733; background: #FFFFFF"><option value="" selected="{{draftSel.none}}">None — use my default calendar</option><option value="google-family" selected="{{draftSel.fam}}">Google · Family</option><option value="google-personal" selected="{{draftSel.per}}">Google · Personal</option><option value="new" selected="{{draftSel.new}}">Create a new Google calendar for this circle</option></select></div>
+</div>
+<div style="font-size: 12px; font-weight: 600; color: #3A4552">People</div>
+<sc-for list="{{draftRows}}" as="r" hint-placeholder-count="2">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<input type="email" aria-label="{{r.emailLabel}}" value="{{r.email}}" onInput="{{r.setEmail}}" placeholder="Email address" style="height: 40px; border: 1px solid #D6D0C3; border-radius: 10px; padding: 0 12px; font-size: 14px; color: #1D2733; background: #FFFFFF">
+<input type="text" aria-label="{{r.labelLabel}}" value="{{r.label}}" onInput="{{r.setLabel}}" placeholder="Label, e.g. Aunt Lisa" style="height: 40px; border: 1px solid #D6D0C3; border-radius: 10px; padding: 0 12px; font-size: 14px; color: #1D2733; background: #FFFFFF">
+</div>
+</sc-for>
+<button type="button" onClick="{{addRow}}" style="align-self: flex-start; height: 34px; padding: 0 12px; border: 1px dashed #CFC8B9; border-radius: 10px; background: transparent; color: #3A4552; font-size: 13px; font-weight: 600; cursor: pointer">+ Add another person</button>
+<div style="font-size: 12px; color: #5B6572">Each person gets an email invite. They can join without connecting a calendar.</div>
+<div style="display: flex; gap: 8px">
+<button type="submit" style="height: 40px; padding: 0 16px; border: 0; border-radius: 10px; background: #24506B; color: #FFFFFF; font-size: 13px; font-weight: 700; cursor: pointer">Create circle &amp; send invites</button>
+<button type="button" onClick="{{toggleForm}}" style="height: 40px; padding: 0 14px; border: 1px solid #D6D0C3; border-radius: 10px; background: #FFFFFF; color: #1D2733; font-size: 13px; font-weight: 600; cursor: pointer">Cancel</button>
+</div>
+</form>
+</sc-if>
+
+<sc-for list="{{circles}}" as="c" hint-placeholder-count="3">
+<div style="flex-shrink: 0; border: 1px solid #E4DFD4; border-radius: 14px; overflow: hidden">
+<button type="button" onClick="{{c.toggle}}" aria-expanded="{{c.expanded}}" style="width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 0; background: {{c.headBg}}; text-align: left; cursor: pointer; color: #1D2733">
+<span style="width: 38px; height: 38px; flex-shrink: 0; border-radius: 11px; color: #FFFFFF; display: flex; align-items: center; justify-content: center; background: {{c.color}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .6 3.2 2.5 3.5 5.5"></path></svg></span>
+<span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">{{c.name}}</span><span style="font-size: 12px; color: #5B6572">{{c.summary}}</span></span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6572" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: {{c.chevron}}"><path d="M6 9l6 6 6-6"></path></svg>
+</button>
+<sc-if value="{{c.open}}" hint-placeholder-val="{{false}}">
+<div style="padding: 4px 14px 14px; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #EEEAE1">
+<div style="display: flex; align-items: center; gap: 10px; padding-top: 10px"><label for="{{c.selId}}" style="flex-grow: 1; font-size: 13px; font-weight: 600">Linked calendar</label><select id="{{c.selId}}" onChange="{{c.setCal}}" style="height: 38px; border: 1px solid #D6D0C3; border-radius: 10px; padding: 0 10px; font-size: 13px; color: #1D2733; background: #FFFFFF"><option value="" selected="{{c.calSel.none}}">None — use my default calendar</option><option value="google-family" selected="{{c.calSel.fam}}">Google · Family</option><option value="google-personal" selected="{{c.calSel.per}}">Google · Personal</option><option value="new" selected="{{c.calSel.new}}">Create a new Google calendar for this circle</option></select></div>
+<div style="font-size: 12px; color: #5B6572; margin-top: -4px">{{c.calHint}}</div>
+<sc-for list="{{c.members}}" as="m" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #F1EDE5">
+<span style="width: 34px; height: 34px; flex-shrink: 0; border-radius: 999px; color: #FFFFFF; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; background: {{m.color}}">{{m.ini}}</span>
+<div style="flex-grow: 1; min-width: 0"><div style="font-size: 14px; font-weight: 700">{{m.label}}</div><div style="font-size: 12px; color: #5B6572; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{m.email}}</div></div>
+<span style="font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: {{m.tagBg}}; color: {{m.tagColor}}">{{m.access}}</span>
+</div>
+</sc-for>
+<div style="display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto; gap: 8px; padding-top: 4px">
+<input type="email" aria-label="{{c.addEmailLabel}}" value="{{c.addEmail}}" onInput="{{c.setAddEmail}}" placeholder="Email address" style="height: 38px; border: 1px solid #D6D0C3; border-radius: 10px; padding: 0 12px; font-size: 13px; color: #1D2733; background: #FFFFFF; min-width: 0">
+<input type="text" aria-label="{{c.addLabelLabel}}" value="{{c.addLabel}}" onInput="{{c.setAddLabel}}" placeholder="Label" style="height: 38px; border: 1px solid #D6D0C3; border-radius: 10px; padding: 0 12px; font-size: 13px; color: #1D2733; background: #FFFFFF; min-width: 0">
+<button type="button" onClick="{{c.addMember}}" style="height: 38px; padding: 0 14px; border: 0; border-radius: 10px; background: #E3EEF4; color: #163A50; font-size: 13px; font-weight: 700; cursor: pointer">Add</button>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-for>
+
+<div style="flex-shrink: 0; background: #FBF9F4; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 13px; font-weight: 700">Access levels</div>
+<div style="font-size: 12px; line-height: 1.5; color: #3A4552"><strong>Co-planner</strong> adds, commits and edits the circle's plans. <strong>Contributor</strong> adds to the radar and votes. <strong>Viewer</strong> sees the circle's plans only. People only see plans from circles they belong to, plus your busy time if you share it.</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const M = (label, email, access, rel) => ({ label: label, email: email, access: access, rel: rel });
+    this.state = {
+      g: { g1: true, g2: true, g3: true, g4: false }, conn: {}, radar: 'app',
+      open: 'family', showForm: false, rows: 2,
+      circles: [
+        { id: 'family', name: 'Family', color: '#3F7A5A', calendar: 'google-family', members: [
+          M('Dana', 'dana.h@example.com', 'Co-planner'), M('Maya', 'Kid profile · no email', 'Viewer'),
+          M('Sam', 'sam.h@example.com', 'Contributor'), M('Mom & Dad', 'mom.and.dad@example.com', 'Contributor'),
+          M('Aunt Lisa', 'lisa.m@example.com', 'Viewer') ] },
+        { id: 'crew', name: 'Weekend crew', color: '#46698F', calendar: '', members: [
+          M('Jen Park', 'jen.park@example.com', 'Co-planner'), M('Chris Park', 'chris.park@example.com', 'Contributor'),
+          M('Alex Rivera', 'alex.r@example.com', 'Contributor'), M('Priya Shah', 'priya.s@example.com', 'Contributor') ] },
+        { id: 'wine', name: 'Wine club', color: '#A0445B', calendar: '', members: [
+          M('Dana', 'dana.h@example.com', 'Contributor'), M('Jen Park', 'jen.park@example.com', 'Contributor'),
+          M('Marco Bell', 'marco.b@example.com', 'Contributor'), M('Ruth Ng', 'ruth.ng@example.com', 'Contributor'),
+          M('Omar Haddad', 'omar.h@example.com', 'Contributor'), M('Lena Fox', 'lena.fox@example.com', 'Viewer') ] }
+      ]
+    };
+    this.draft = { name: '', cal: '', people: [] };
+    this.addDraft = {};
+  }
+  renderVals() {
+    const st = this.state;
+    const gcals = [
+      { id: 'g1', name: 'Personal', color: '#24506B', mode: 'Read & write · plans just for me' },
+      { id: 'g2', name: 'Family', color: '#3F7A5A', mode: 'Linked to the Family circle' },
+      { id: 'g3', name: "Maya's school", color: '#A35A16', mode: 'Read only' },
+      { id: 'g4', name: 'US holidays', color: '#6B4F99', mode: 'Read only' }
+    ];
+    const others = [
+      { id: 'apple', name: 'Apple iCloud Calendar', sub: 'Uses an app-specific password from your Apple account' },
+      { id: 'yahoo', name: 'Yahoo Calendar', sub: 'Uses an app password from Yahoo account security' },
+      { id: 'ms', name: 'Outlook / Microsoft 365', sub: 'Sign in with Microsoft' }
+    ];
+    const radarOpts = [
+      { id: 'app', label: 'Keep them in PlanBreeze only (recommended)' },
+      { id: 'tent', label: 'Add as tentative "maybe" holds' },
+      { id: 'busy', label: 'Show nothing, but warn me about conflicts' }
+    ];
+    const calChoices = [
+      { value: '', label: 'None — use my default calendar' },
+      { value: 'google-family', label: 'Google · Family' },
+      { value: 'google-personal', label: 'Google · Personal' },
+      { value: 'new', label: 'Create a new Google calendar for this circle' }
+    ];
+    const calName = (v) => { if (v === 'new') return 'a new Google calendar'; const c = calChoices.find((x) => x.value === v); return v && c ? c.label : ''; };
+    const tagFor = { 'Co-planner': ['#E3EEF4', '#163A50'], 'Contributor': ['#FBEDE4', '#8A3A17'], 'Viewer': ['#F1EDE5', '#3A4552'] };
+    const avatarColors = ['#6B4F99', '#3F7A5A', '#A35A16', '#A0445B', '#46698F', '#7A6A3A'];
+    const initials = (label) => label.replace(/&/g, ' ').split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('');
+    const selMap = (v) => ({ none: !v, fam: v === 'google-family', per: v === 'google-personal', new: v === 'new' });
+    const setCircles = (fn) => this.setState({ circles: st.circles.map(fn) });
+
+    while (this.draft.people.length < st.rows) this.draft.people.push({ email: '', label: '' });
+
+    const circles = st.circles.map((c, ci) => {
+      const open = st.open === c.id;
+      const ad = this.addDraft[c.id] || (this.addDraft[c.id] = { email: '', label: '' });
+      const n = c.members.length;
+      return {
+        name: c.name, color: c.color, open: open, expanded: open ? 'true' : 'false',
+        headBg: open ? '#FBF9F4' : '#FFFFFF', chevron: open ? 'rotate(180deg)' : 'none',
+        summary: n + (n === 1 ? ' person' : ' people') + ' · ' + (c.calendar ? 'Adds to ' + calName(c.calendar) : 'No linked calendar'),
+        selId: 'cal-' + c.id,
+        calSel: selMap(c.calendar),
+        calHint: c.calendar ? 'Committed plans in this circle are added to ' + calName(c.calendar) + '.' : 'Committed plans in this circle go to your default calendar (Google · Personal).',
+        setCal: (e) => { const v = e.target.value; setCircles((x) => (x.id === c.id ? Object.assign({}, x, { calendar: v }) : x)); },
+        toggle: () => this.setState({ open: open ? '' : c.id }),
+        members: c.members.map((m, i) => ({ label: m.label, email: m.email, access: m.access, ini: initials(m.label), color: avatarColors[(i + ci) % avatarColors.length], tagBg: tagFor[m.access][0], tagColor: tagFor[m.access][1] })),
+        addEmail: ad.email, addLabel: ad.label,
+        addEmailLabel: 'Email for new person in ' + c.name, addLabelLabel: 'Label for new person in ' + c.name,
+        setAddEmail: (e) => { ad.email = e.target.value; },
+        setAddLabel: (e) => { ad.label = e.target.value; },
+        addMember: () => {
+          if (!ad.email.trim()) return;
+          const m = { label: ad.label.trim() || ad.email.split('@')[0], email: ad.email.trim(), access: 'Contributor' };
+          this.addDraft[c.id] = { email: '', label: '' };
+          setCircles((x) => (x.id === c.id ? Object.assign({}, x, { members: x.members.concat([m]) }) : x));
+        }
+      };
+    });
+
+    return {
+      gcals: gcals.map((g) => Object.assign({}, g, { on: !!st.g[g.id], toggle: () => this.setState({ g: Object.assign({}, st.g, { [g.id]: !st.g[g.id] }) }) })),
+      others: others.map((o) => {
+        const c = !!st.conn[o.id];
+        return Object.assign({}, o, {
+          sub: c ? 'Connected · syncing now' : o.sub, subColor: c ? '#2C6B49' : '#5B6572',
+          btn: c ? 'Connected' : 'Connect', btnBg: c ? '#E6F0EA' : '#E3EEF4', btnColor: c ? '#2C5A41' : '#163A50',
+          connect: () => this.setState({ conn: Object.assign({}, st.conn, { [o.id]: !c }) })
+        });
+      }),
+      radarOpts: radarOpts.map((r) => ({ label: r.label, on: st.radar === r.id, pick: () => this.setState({ radar: r.id }) })),
+      circles: circles,
+      showForm: st.showForm, formExpanded: st.showForm ? 'true' : 'false',
+      toggleForm: () => { this.draft = { name: '', cal: '', people: [] }; this.setState({ showForm: !st.showForm, rows: 2 }); },
+      draftName: this.draft.name,
+      setDraftName: (e) => { this.draft.name = e.target.value; },
+      setDraftCal: (e) => { this.draft.cal = e.target.value; },
+      draftSel: selMap(this.draft.cal),
+      draftRows: this.draft.people.slice(0, st.rows).map((r, i) => ({
+        email: r.email, label: r.label, emailLabel: 'Email for person ' + (i + 1), labelLabel: 'Label for person ' + (i + 1),
+        setEmail: (e) => { r.email = e.target.value; }, setLabel: (e) => { r.label = e.target.value; }
+      })),
+      addRow: () => this.setState({ rows: st.rows + 1 }),
+      create: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        const name = this.draft.name.trim();
+        if (!name) return;
+        const id = 'c' + Date.now();
+        const members = this.draft.people.filter((p) => p.email.trim()).map((p) => ({ label: p.label.trim() || p.email.split('@')[0], email: p.email.trim(), access: 'Contributor' }));
+        const palette = ['#7A6A3A', '#6B4F99', '#A35A16', '#24506B'];
+        const circle = { id: id, name: name, color: palette[st.circles.length % palette.length], calendar: this.draft.cal, members: members };
+        this.draft = { name: '', cal: '', people: [] };
+        this.setState({ circles: st.circles.concat([circle]), open: id, showForm: false, rows: 2 });
+      },
+      true: true, false: false
+    };
+  }
+}
+</script>
+</body>
+</html>
