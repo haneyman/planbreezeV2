@@ -3,7 +3,6 @@ on:
   push:
     branches: [main]
   pull_request:
-
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -18,4 +17,4 @@ jobs:
       - run: npm test
       - run: npm run build
         env:
-          NUXT_PUBLIC_CONVEX_URL: https://placeholder.convex.cloud
+          NUXT_PUBLIC_CONVEX_URL: https://basic-peacock-14.convex.cloud/

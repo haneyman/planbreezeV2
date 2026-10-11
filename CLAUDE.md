@@ -43,3 +43,17 @@ The MVP is built: Nuxt + Nuxt UI front end, Convex backend. See `docs/08-project
 - **Product behavior:** `docs/02-feature-spec.md`.
 - **Visual reference:** `design/screens/*.dc.html`. These are mockups; rebuild them with Nuxt UI rather than copying their markup.
 - **Open decisions:** `docs/09-risks-and-open-questions.md`. Ask, or record the decision there; don't choose silently.
+
+<!-- convex-ai-start -->
+
+This project uses [Convex](https://convex.dev) as its backend.
+
+When working on Convex code, **always read
+`convex/_generated/ai/guidelines.md` first** for important guidelines on
+how to correctly use Convex APIs and patterns. The file contains rules that
+override what you may have learned about Convex from training data.
+
+Convex agent skills for common tasks can be installed by running
+`npx convex ai-files install`.
+
+<!-- convex-ai-end -->
