@@ -1,11 +1,21 @@
-name: CI
+name: CI and deploy
 on:
   push:
     branches: [main]
   pull_request:
+
+permissions:
+  contents: read
+
+# Serialize main builds/deploys; never interrupt a release switch.
+concurrency:
+  group: planbreeze-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -17,4 +27,12 @@ jobs:
       - run: npm test
       - run: npm run build
         env:
-          NUXT_PUBLIC_CONVEX_URL: https://basic-peacock-14.convex.cloud/
+          NUXT_PUBLIC_CONVEX_URL: https://basic-peacock-14.convex.cloud
+      - name: Deploy static site to droplet
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+          DEPLOY_HOST: 147.182.196.221
+        run: bash scripts/deploy-static.sh

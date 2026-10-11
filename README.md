@@ -117,16 +117,37 @@ npx convex deploy
 
 Then set the production env vars with `npx convex env set --prod …`, including `SITE_URL=https://planbreeze.com`.
 
-**Front end:** `npm run build` produces a static site in `.output/public`. Build it with `NUXT_PUBLIC_CONVEX_URL` set to the production Convex URL, then serve it from any static host. For example, on the existing nginx:
+**Front end:** GitHub Actions builds the static Nuxt site against
+`https://basic-peacock-14.convex.cloud`. Every push to `main`, including a merged
+pull request, deploys after typecheck, tests, and build pass. Pull requests run
+checks only. Deployment runs are serialized and do not cancel an active release.
 
-```nginx
-server {
-  server_name planbreeze.com www.planbreeze.com;
-  root /var/www/planbreeze/current;
-  location / { try_files $uri $uri/ /200.html; }
-  location /_nuxt/ { expires 1y; add_header Cache-Control "public, immutable"; }
-}
-```
+The workflow uploads only `.output/public` to the existing droplet at
+`147.182.196.221`. Each deployment creates
+`/var/www/planbreeze/releases/<commit>-<run>-<attempt>` and atomically switches
+`/var/www/planbreeze/current`. HTTPS checks verify both the exact deployed HTML
+and SPA route fallback; a failed check restores the previous release. Earlier
+releases remain available for manual rollback. No nginx restart is needed.
+
+One-time GitHub Actions configuration (repository Settings → Secrets and
+variables → Actions):
+
+| Type | Name | Value |
+| --- | --- | --- |
+| Secret | `DEPLOY_SSH_KEY` | Private SSH key authorized for the deployment user on the droplet |
+| Secret | `DEPLOY_KNOWN_HOSTS` | Verified SSH host-key entry for `147.182.196.221` |
+| Variable | `DEPLOY_USER` | SSH username with write access to `/var/www/planbreeze` |
+
+Use a dedicated deployment account/key with access to this site's directory.
+The droplet needs `bash`, `rsync`, `curl`, and `cmp`, with nginx and the existing
+HTTPS certificate configured for `planbreeze.com`. The `current` symlink must
+already exist (the initial deployment created it). Verify the host key through
+your trusted SSH connection before storing it; the workflow rejects unknown or
+changed host keys. Do not upload application secrets or `.env` files as static
+assets.
+
+This workflow deploys the frontend only. Convex backend deployment and its
+production environment variables remain managed separately as described above.
 
 ## Browser extension
 
