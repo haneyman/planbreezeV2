@@ -150,6 +150,94 @@ export const updateCalendars = internalMutation({
   },
 });
 
+// Read-only planner events. These are never inserted into the plans table.
+export const calendarEvents = action({
+  args: { calendarId: v.string(), from: v.string(), to: v.string(), timeZone: v.string() },
+  handler: async (ctx, { calendarId, from, to, timeZone }) => {
+    const userId = await requireUserId(ctx);
+    const validDate = (d: string) => /^\d{4}-\d{2}-\d{2}$/.test(d) &&
+      Number.isFinite(Date.parse(d)) && new Date(d).toISOString().slice(0, 10) === d;
+    if (!validDate(from) || !validDate(to) || to <= from || Date.parse(to) - Date.parse(from) > 370 * 86400000)
+      throw new ConvexError("Choose a calendar range of up to one year.");
+    if (!timeZone || timeZone.length > 100) throw new ConvexError("Invalid time zone.");
+    const account = await ctx.runQuery(internal.google.accountFor, { userId });
+    const calendar = account?.calendars.find((c) => c.id === calendarId);
+    if (!calendar) throw new ConvexError("This calendar is not connected to your account.");
+    const token = await accessTokenFor(ctx, userId);
+    if (!token) throw new ConvexError("Reconnect Google Calendar in Settings.");
+    const events: ReadonlyCalendarEvent[] = [];
+    let pageToken: string | undefined;
+    // Bound each response and tell the user when a narrower range is needed.
+    for (let page = 0; page < 4; page++) {
+      const params = new URLSearchParams({
+        timeMin: `${addDays(from, -1)}T00:00:00Z`,
+        timeMax: `${addDays(to, 1)}T00:00:00Z`,
+        timeZone, singleEvents: "true", showDeleted: "false", orderBy: "startTime", maxResults: "250",
+        fields: "nextPageToken,items(id,status,summary,location,htmlLink,start,end,extendedProperties)",
+        ...(pageToken ? { pageToken } : {}),
+      });
+      const res = await gfetch(token, `${API}/calendars/${encodeURIComponent(calendarId)}/events?${params}`, "GET");
+      if (!res.ok) throw new ConvexError("Could not load Google events. Try refreshing or reconnect Google Calendar in Settings.");
+      const data = (await res.json()) as { items?: GooglePlannerEvent[]; nextPageToken?: string };
+      for (const event of data.items ?? []) {
+        const item = readonlyCalendarEvent(event, calendar, from, to);
+        if (item) events.push(item);
+      }
+      pageToken = data.nextPageToken;
+      if (!pageToken) break;
+    }
+    return { events, truncated: !!pageToken };
+  },
+});
+
+type GooglePlannerEvent = GoogleEvent & {
+  id?: string;
+  location?: string;
+  htmlLink?: string;
+  extendedProperties?: { private?: { planbreezePlanId?: string }; shared?: { planbreezePlanId?: string } };
+};
+
+export type ReadonlyCalendarEvent = {
+  _id: string;
+  eventId: string;
+  calendarId: string;
+  calendarName: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  startTime?: string;
+  endTime?: string;
+  place?: string;
+  url?: string;
+  status: "google";
+};
+
+export function readonlyCalendarEvent(
+  event: GooglePlannerEvent,
+  calendar: { id: string; name: string },
+  from: string,
+  to: string,
+): ReadonlyCalendarEvent | null {
+  if (!event.id || event.status === "cancelled" || event.extendedProperties?.private?.planbreezePlanId ||
+      event.extendedProperties?.shared?.planbreezePlanId) return null;
+  // Google returns timed events in the timeZone requested by calendarEvents.
+  const dates = fromGoogleTimes(event);
+  if (!dates) return null;
+  // Google end dates/times are exclusive; a midnight ending occupies the previous day.
+  if (event.end?.dateTime && dates.endTime === "00:00" && dates.endDate > dates.startDate)
+    dates.endDate = addDays(dates.endDate, -1);
+  if (dates.endDate < from || dates.startDate >= to) return null;
+  const url = event.htmlLink?.startsWith("https://www.google.com/calendar/") ||
+    event.htmlLink?.startsWith("https://calendar.google.com/") ? event.htmlLink : undefined;
+  return {
+    _id: `google:${encodeURIComponent(calendar.id)}:${event.id}`,
+    eventId: event.id, calendarId: calendar.id, calendarName: calendar.name,
+    title: (event.summary || "Busy").slice(0, 500), ...dates,
+    ...(event.location ? { place: event.location.slice(0, 1000) } : {}),
+    ...(url ? { url } : {}), status: "google",
+  };
+}
+
 // Writing events ------------------------------------------------------------------
 
 /** Where a committed plan should go: the circle's linked calendar, else the committer's default. */

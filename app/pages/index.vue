@@ -64,10 +64,23 @@
         </NuxtLink>
       </div>
 
+      <div v-if="viewer?.google" class="flex flex-wrap items-center gap-2" aria-label="Google calendar visibility">
+        <span class="text-[13px] text-muted">Google calendars · Read only</span>
+        <button v-for="calendar in viewer.google.calendars" :key="calendar.id" type="button"
+          :aria-pressed="!hidden.has('google:' + calendar.id)"
+          class="rounded-full border border-line px-3 py-2 text-sm cursor-pointer"
+          :class="hidden.has('google:' + calendar.id) ? 'opacity-50' : 'bg-white'"
+          @click="toggle('google:' + calendar.id)">{{ calendar.name }}</button>
+        <UButton color="neutral" variant="ghost" icon="i-lucide-refresh-cw" :loading="googleLoading" @click="loadGoogleEvents">Refresh events</UButton>
+        <span v-if="googleLoading" role="status" class="text-sm text-muted">Loading Google events…</span>
+        <p v-if="googleMessage" role="status" class="w-full text-sm text-muted">{{ googleMessage }}</p>
+      </div>
+
       <PlanTimeline :plans="visiblePlans" :range="range" :today="today" :selected-id="selectedId" class="min-h-80" @select="selectedId = $event" @zoom-to="zoomTo" />
 
       <div class="grid lg:grid-cols-[1fr_320px] gap-4">
-        <PlanDetail :plan="selected" :today="today" @edit="editOpen = true" />
+        <GoogleEventDetail v-if="selectedGoogle" :event="selectedGoogle" :time-zone="googleTimeZone" />
+        <PlanDetail v-else :plan="selected" :today="today" @edit="editOpen = true" />
         <BreezeNoticed :plans="allPlans" :today="today" :viewer="viewer" @select="selectedId = $event" />
       </div>
     </div>
@@ -88,7 +101,7 @@ import { api } from "~~/convex/_generated/api";
 import { rangeFor, ZOOMS, type Zoom } from "~/utils/timeline";
 import { daysBetween, startOfWeek, todayLocal } from "~/utils/dates";
 import { emptyDraft } from "~/utils/draft";
-import type { PlanDraft } from "~/utils/types";
+import type { PlanDraft, GooglePlannerEvent, TimelineItem } from "~/utils/types";
 
 const today = todayLocal();
 const zoom = ref<Zoom>("twoMonths");
@@ -141,10 +154,56 @@ const chips = computed(() => [
     hint: `${c.members.length} people · ${c.linkedCalendarId ? "adds to its linked calendar" : "adds to your default calendar"}`,
   })),
 ]);
-const visiblePlans = computed(() => (plans.value ?? []).filter((p) => !hidden.value.has(p.circleId ?? "me")));
+const googleTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+const googleEvents = ref<GooglePlannerEvent[]>([]);
+const googleLoading = ref(false);
+const googleMessage = ref("");
+let googleRequest = 0;
+const calendarsToShow = computed(() => (viewer.value?.google?.calendars ?? []).filter((c) => !hidden.value.has("google:" + c.id)));
+async function loadGoogleEvents() {
+  const request = ++googleRequest;
+  googleEvents.value = [];
+  googleMessage.value = "";
+  const calendars = calendarsToShow.value;
+  if (!viewer.value?.google || !calendars.length) { googleLoading.value = false; return; }
+  googleLoading.value = true;
+  const { from, to } = range.value;
+  const events: GooglePlannerEvent[] = [];
+  const failed: string[] = [];
+  let truncated = false;
+  // Limit parallel Google requests while loading each selected calendar.
+  for (let i = 0; i < calendars.length; i += 4) {
+    const batch = calendars.slice(i, i + 4);
+    const results = await Promise.allSettled(batch.map((c) => runAction(api.google.calendarEvents, {
+      calendarId: c.id, from, to, timeZone: googleTimeZone,
+    })));
+    if (request !== googleRequest) return;
+    results.forEach((result, n) => {
+      if (result.status === "fulfilled") {
+        events.push(...result.value.events);
+        truncated ||= result.value.truncated;
+      } else failed.push(batch[n]!.name);
+    });
+  }
+  googleEvents.value = events;
+  googleLoading.value = false;
+  googleMessage.value = [
+    failed.length ? `Could not load ${failed.join(", ")}. Refresh or reconnect Google in Settings.` : "",
+    truncated ? "Some events are not shown. Choose a shorter timeframe to see more." : "",
+  ].filter(Boolean).join(" ");
+}
+watch(() => [range.value.from, range.value.to, viewer.value?._id, viewer.value?.google?.status,
+  viewer.value?.google?.lastSyncedAt, calendarsToShow.value.map((c) => c.id).join("|")], loadGoogleEvents, { immediate: true });
+onBeforeUnmount(() => { googleRequest++; });
+const visibleGoogle = computed(() => googleEvents.value.filter((event) => !hidden.value.has("google:" + event.calendarId) &&
+  !(plans.value ?? []).some((p) => p.googleEvent?.calendarId === event.calendarId && p.googleEvent.eventId === event.eventId)));
+const visiblePlans = computed<TimelineItem[]>(() => [
+  ...(plans.value ?? []).filter((p) => !hidden.value.has(p.circleId ?? "me")), ...visibleGoogle.value,
+]);
 
 // Selection
 const selectedId = ref<string | null>(null);
+const selectedGoogle = computed(() => visibleGoogle.value.find((e) => e._id === selectedId.value) ?? null);
 const selected = computed(
   () => (plans.value ?? []).find((p) => p._id === selectedId.value) ?? allPlans.value.find((p) => p._id === selectedId.value) ?? null,
 );

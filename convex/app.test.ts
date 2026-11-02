@@ -1,6 +1,6 @@
 // @vitest-environment edge-runtime
 import { convexTest } from "convex-test";
-import { describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { api, internal } from "./_generated/api";
 import schema from "./schema";
 import { modules } from "./test.setup";
@@ -130,5 +130,76 @@ describe("extraction", () => {
     expect(parseEvents(text)).toEqual([
       expect.objectContaining({ title: "Jazz", startDate: "2026-10-18", endDate: "2026-10-18", url: "https://a.example/jazz" }),
     ]);
+  });
+});
+
+
+describe("read-only Google planner events", () => {
+  afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
+  const range = { calendarId: "personal@group", from: "2026-10-01", to: "2026-11-01", timeZone: "America/Los_Angeles" };
+  const event = (id: string) => ({ id, summary: id, start: { date: "2026-10-10" }, end: { date: "2026-10-11" } });
+  async function connected() {
+    const users = await setup();
+    vi.stubEnv("TOKEN_ENCRYPTION_KEY", btoa("k".repeat(32)));
+    vi.stubEnv("AUTH_GOOGLE_ID", "test-client");
+    vi.stubEnv("AUTH_GOOGLE_SECRET", "test-secret");
+    const { encrypt } = await import("./lib");
+    const refreshToken = await encrypt("test-refresh-token");
+    await users.t.run((ctx) => ctx.db.insert("calendarAccounts", {
+      userId: users.mark, provider: "google", refreshToken, status: "ok",
+      calendars: [{ id: range.calendarId, name: "Personal", writable: true }],
+    }));
+    return users;
+  }
+  test("rejects unauthenticated callers, other users' calendars, and invalid ranges before Google access", async () => {
+    const { t, asMark, asDana } = await connected();
+    const fetchMock = vi.fn(); vi.stubGlobal("fetch", fetchMock);
+    await expect(t.action(api.google.calendarEvents, range)).rejects.toThrow(/sign in/);
+    await expect(asDana.action(api.google.calendarEvents, range)).rejects.toThrow(/not connected/);
+    await expect(asMark.action(api.google.calendarEvents, { ...range, calendarId: "someone-else" })).rejects.toThrow(/not connected/);
+    await expect(asMark.action(api.google.calendarEvents, { ...range, from: "2026-02-30" })).rejects.toThrow(/range/);
+    await expect(asMark.action(api.google.calendarEvents, { ...range, to: "2028-01-01" })).rejects.toThrow(/range/);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+  test("loads recurring instances across pages, removes duplicates and cancelled events, preserves date boundaries", async () => {
+    const { t, asMark } = await connected();
+    const fetchMock = vi.fn().mockResolvedValueOnce(Response.json({ access_token: "test-access" }))
+      .mockResolvedValueOnce(Response.json({ items: [
+        event("all-day"), { ...event("cancelled"), status: "cancelled" },
+        { ...event("owned"), extendedProperties: { private: { planbreezePlanId: "plan" } } },
+        { ...event("outside"), start: { date: "2026-11-01" }, end: { date: "2026-11-02" } },
+      ], nextPageToken: "page-two" }))
+      .mockResolvedValueOnce(Response.json({ items: [{
+        id: "recurring_20261011", summary: "Weekly dinner",
+        start: { dateTime: "2026-10-10T23:00:00-07:00" }, end: { dateTime: "2026-10-11T00:00:00-07:00" },
+        htmlLink: "https://calendar.google.com/calendar/event?eid=test",
+      }] }));
+    vi.stubGlobal("fetch", fetchMock);
+    const result = await asMark.action(api.google.calendarEvents, range);
+    expect(result.truncated).toBe(false);
+    expect(result.events.map((e) => e.eventId)).toEqual(["all-day", "recurring_20261011"]);
+    expect(result.events[0]).toMatchObject({ startDate: "2026-10-10", endDate: "2026-10-10", status: "google" });
+    expect(result.events[1]).toMatchObject({ startTime: "23:00", endTime: "00:00", endDate: "2026-10-10" });
+    const request = new URL(fetchMock.mock.calls[1]![0]);
+    expect(request.searchParams.get("singleEvents")).toBe("true");
+    expect(request.searchParams.get("timeZone")).toBe(range.timeZone);
+    expect(new URL(fetchMock.mock.calls[2]![0]).searchParams.get("pageToken")).toBe("page-two");
+    expect(await t.run((ctx) => ctx.db.query("plans").collect())).toEqual([]);
+    expect(JSON.stringify(result)).not.toContain("test-access");
+    expect(JSON.stringify(result)).not.toContain("test-refresh-token");
+  });
+  test("reports truncated results instead of silently dropping later pages", async () => {
+    const { asMark } = await connected();
+    const fetchMock = vi.fn().mockResolvedValueOnce(Response.json({ access_token: "test-access" }))
+      .mockImplementation(() => Promise.resolve(Response.json({ items: [], nextPageToken: "more" })));
+    vi.stubGlobal("fetch", fetchMock);
+    expect((await asMark.action(api.google.calendarEvents, range)).truncated).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(5);
+  });
+  test("reports Google failures without leaking the response or credentials", async () => {
+    const { asMark } = await connected();
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce(Response.json({ access_token: "test-access" }))
+      .mockResolvedValueOnce(new Response("private response", { status: 403 })));
+    await expect(asMark.action(api.google.calendarEvents, range)).rejects.toThrow(/Could not load Google events/);
   });
 });

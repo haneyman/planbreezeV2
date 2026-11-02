@@ -33,10 +33,10 @@
         <template v-for="lane in lanes" :key="lane.status">
           <div
             class="flex items-center gap-2 text-[11px] font-bold tracking-[0.08em]"
-            :class="lane.status === 'committed' ? 'text-sea-700' : 'text-coral-700 mt-2.5 pt-3 border-t border-dashed border-line'"
+            :class="lane.status === 'committed' ? 'text-sea-700' : lane.status === 'google' ? 'text-slate-600 mt-2.5 pt-3 border-t border-line' : 'text-coral-700 mt-2.5 pt-3 border-t border-dashed border-line'"
           >
-            {{ lane.status === "committed" ? "COMMITTED" : "ON THE RADAR" }}
-            <span class="px-1.5 rounded-full tracking-normal" :class="lane.status === 'committed' ? 'bg-sea-100 text-sea-900' : 'bg-coral-100 text-coral-800'">
+            {{ lane.status === "committed" ? "COMMITTED" : lane.status === "google" ? "GOOGLE CALENDAR · READ ONLY" : "ON THE RADAR" }}
+            <span class="px-1.5 rounded-full tracking-normal" :class="lane.status === 'google' ? 'bg-slate-100 text-slate-800' : lane.status === 'committed' ? 'bg-sea-100 text-sea-900' : 'bg-coral-100 text-coral-800'">
               {{ lane.count }}
             </span>
             <span v-if="lane.status === 'radar'" class="font-medium tracking-normal text-muted">not committed · no calendar holds</span>
@@ -54,7 +54,7 @@
                 :aria-pressed="bar.item._id === selectedId"
                 class="absolute inset-0 min-w-3.5 rounded-lg px-2.5 text-left text-[13px] font-semibold truncate cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sea-700"
                 :class="[
-                  lane.status === 'committed' ? 'committed-bar' : 'radar-bar',
+                  lane.status === 'google' ? 'bg-slate-100 border border-slate-400 text-slate-800' : lane.status === 'committed' ? 'committed-bar' : 'radar-bar',
                   bar.item._id === selectedId ? 'ring-2 ring-offset-2 ring-[#1D2733]' : '',
                 ]"
                 @click="bar.item.cluster ? $emit('zoomTo', bar.item.startDate) : $emit('select', bar.item._id)"
@@ -66,7 +66,7 @@
                 class="absolute top-1.5 whitespace-nowrap text-[13px] pointer-events-none"
                 :class="[
                   bar.labelSide === 'right' ? 'left-[calc(100%+6px)]' : 'right-[calc(100%+6px)]',
-                  lane.status === 'committed' ? 'font-semibold' : 'font-medium text-coral-800',
+                  lane.status !== 'radar' ? 'font-semibold' : 'font-medium text-coral-800',
                 ]"
               >
                 {{ bar.item.title }}
@@ -83,28 +83,28 @@
 </template>
 
 <script setup lang="ts">
-import type { Plan } from "~/utils/types";
+import type { TimelineItem } from "~/utils/types";
 import { packBars, pctFn, ticksFor, type Range } from "~/utils/timeline";
 import { addDays, addMonths, daysBetween, formatWhen, MONTHS } from "~/utils/dates";
 import { useResizeObserver } from "@vueuse/core";
 
-const props = defineProps<{ plans: Plan[]; range: Range; today: string; selectedId?: string | null }>();
+const props = defineProps<{ plans: TimelineItem[]; range: Range; today: string; selectedId?: string | null }>();
 defineEmits<{ select: [id: string]; zoomTo: [date: string] }>();
 
-type Item = Pick<Plan, "_id" | "title" | "startDate" | "endDate"> & { cluster?: boolean };
+type Item = Pick<TimelineItem, "_id" | "title" | "startDate" | "endDate"> & { cluster?: boolean };
 
 /** At Year+ zoom, short plans in the same month collapse into one "Oct · 4 plans" bar (click to zoom in). */
-function clustered(list: Plan[]): Item[] {
+function clustered(list: TimelineItem[]): Item[] {
   if (props.range.tick !== "month" || ticks.value.length < 12) return list;
-  const short = (p: Plan) => daysBetween(p.startDate, p.endDate) < 3;
-  const byMonth = new Map<string, Plan[]>();
+  const short = (p: TimelineItem) => daysBetween(p.startDate, p.endDate) < 3;
+  const byMonth = new Map<string, TimelineItem[]>();
   for (const p of list.filter(short)) byMonth.set(p.startDate.slice(0, 7), [...(byMonth.get(p.startDate.slice(0, 7)) ?? []), p]);
   const out: Item[] = list.filter((p) => !short(p));
   for (const [month, ps] of byMonth) {
     if (ps.length < 2) out.push(...ps);
     else {
       const first = month + "-01";
-      out.push({ _id: `cluster-${month}` as Plan["_id"], title: `${MONTHS[+month.slice(5) - 1]} · ${ps.length} plans`, startDate: first, endDate: addDays(addMonths(first, 1), -2), cluster: true });
+      out.push({ _id: `cluster-${month}` as TimelineItem["_id"], title: `${MONTHS[+month.slice(5) - 1]} · ${ps.length} items`, startDate: first, endDate: addDays(addMonths(first, 1), -2), cluster: true });
     }
   }
   return out;
@@ -122,10 +122,10 @@ const todayPct = computed(() =>
   props.today >= props.range.from && props.today < props.range.to ? pctFn(props.range)(props.today) + 50 / Math.max(1, (Date.parse(props.range.to) - Date.parse(props.range.from)) / 86400000) : null,
 );
 const lanes = computed(() =>
-  (["committed", "radar"] as const).map((status) => {
+  (["committed", "google", "radar"] as const).map((status) => {
     const inLane = props.plans.filter((p) => p.status === status && p.endDate >= props.range.from && p.startDate < props.range.to);
     const { bars, rows } = packBars(clustered(inLane), props.range, trackPx.value);
     return { status, bars, rows, count: inLane.length };
-  }),
+  }).filter((lane) => lane.status !== "google" || lane.count > 0),
 );
 </script>

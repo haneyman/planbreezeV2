@@ -31,3 +31,9 @@ export type PlanDraft = {
   circleId: string; // "me" = just me
   status: "radar" | "committed";
 };
+
+export type GooglePlannerEvent = FunctionReturnType<typeof api.google.calendarEvents>["events"][number];
+export type TimelineItem = Pick<Plan, "title" | "startDate" | "endDate" | "startTime" | "endTime"> & {
+  _id: string;
+  status: "committed" | "radar" | "google";
+};
