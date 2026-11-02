@@ -1,3 +1,4 @@
+import { queueCirclePlanEmails } from "./email";
 import { ConvexError, v } from "convex/values";
 import { internal } from "./_generated/api";
 import type { Doc, Id } from "./_generated/dataModel";
@@ -71,6 +72,7 @@ export const create = mutation({
       timeZone: args.timeZone ?? user?.timeZone ?? "UTC",
     });
     if (args.status === "committed") await queueCalendarWrite(ctx, planId);
+    await queueCirclePlanEmails(ctx, planId, args.circleId, userId);
     return planId;
   },
 });
@@ -107,6 +109,7 @@ export const update = mutation({
     }
     checkDates({ ...plan, ...patch });
     await ctx.db.patch(planId, patch);
+    if (circleId && circleId !== plan.circleId) await queueCirclePlanEmails(ctx, planId, circleId, userId);
     if (plan.status === "committed") {
       // Moving circles can change the target calendar, so remove the old event and write a new one.
       if (circleId !== undefined && plan.googleEvent) {

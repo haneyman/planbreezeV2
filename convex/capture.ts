@@ -1,3 +1,4 @@
+import { queueCirclePlanEmails } from "./email";
 import { ConvexError, v } from "convex/values";
 import { internal } from "./_generated/api";
 import { action, httpAction, internalAction, internalMutation, internalQuery, mutation, query } from "./_generated/server";
@@ -79,6 +80,7 @@ export const save = mutation({
       const cap = await ctx.db.get(captureId);
       if (cap?.userId === userId) await ctx.db.patch(captureId, { status: "saved" });
     }
+    await queueCirclePlanEmails(ctx, planId, circleId, userId);
     return planId;
   },
 });

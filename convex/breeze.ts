@@ -1,3 +1,4 @@
+import { queueCirclePlanEmails } from "./email";
 import { ConvexError, v } from "convex/values";
 import { internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
@@ -315,7 +316,7 @@ async function insertRadarPlan(
 ) {
   if (circleId) await requireCircleAccess(ctx, circleId, userId, "contributor");
   const user = await ctx.db.get(userId);
-  return ctx.db.insert("plans", {
+  const planId = await ctx.db.insert("plans", {
     ownerId: userId,
     circleId,
     title: e.title,
@@ -332,6 +333,8 @@ async function insertRadarPlan(
     note: e.reason,
     source,
   });
+  await queueCirclePlanEmails(ctx, planId, circleId, userId);
+  return planId;
 }
 
 /** Keep only events whose URL came back from web search (no invented events). */

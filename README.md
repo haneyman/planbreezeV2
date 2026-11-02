@@ -67,7 +67,10 @@ npx convex env set ANTHROPIC_MODEL claude-opus-5-5   # optional; any current Cla
 # optional
 npx convex env set GOOGLE_CALENDAR_CLIENT_ID ...     # defaults to AUTH_GOOGLE_*
 npx convex env set GOOGLE_CALENDAR_CLIENT_SECRET ...
-npx convex env set RESEND_API_KEY ...        # invite emails; without it they're only logged
+npx convex env set MAILGUN_API_KEY ...       # Mailgun domain sending key
+npx convex env set MAILGUN_DOMAIN mg.planbreeze.com
+npx convex env set MAILGUN_REGION US         # EU for a European Mailgun domain
+npx convex env set EMAIL_ENABLED true       # omit/false to disable delivery
 npx convex env set EMAIL_FROM "PlanBreeze <hello@planbreeze.com>"
 npx convex env set INBOUND_EMAIL_SECRET ...  # email forwarding webhook
 npx convex env set INBOUND_EMAIL_DOMAIN in.planbreeze.com
@@ -90,6 +93,39 @@ This needs an Apple Developer Program membership:
 - **Identifiers:** create an App ID with Sign in with Apple enabled, then a **Services ID**. The Services ID is `AUTH_APPLE_ID`.
 - **Services ID configuration:** add the domain `<deployment>.convex.site` and the return URL `https://<deployment>.convex.site/api/auth/callback/apple`.
 - **Client secret:** create a key for Sign in with Apple and generate the client-secret JWT from it. That JWT is `AUTH_APPLE_SECRET`.
+
+### Circle emails with Mailgun
+
+Verify a sending domain in Mailgun (for example `mg.planbreeze.com`) and add the
+SPF/DKIM records Mailgun supplies at your DNS provider. Set the variables above
+on the appropriate Convex deployment, not in Nuxt's public environment. Set
+`EMAIL_FROM` to a sender authorized for that domain. Optionally set
+`EMAIL_REPLY_TO` to your support mailbox. No inbound Mailgun route is needed for
+these outgoing notifications; keep your existing mailbox MX records.
+
+Adding an unregistered email to a circle queues a registration invitation.
+Existing users do not receive a registration invitation. Adding a radar or
+committed plan sends a separate email to every other member with an email
+address, including the owner; unregistered recipients also get registration
+instructions. This covers manual plans, captured events, saved Breeze/Discover
+suggestions, and moving a plan into a different circle. Edits and committing an
+existing radar plan do not resend the notification. Personal plans send no mail.
+Removed members, deleted plans, and archived circles are skipped at send time.
+
+Registration uses the existing `/login` page with Google or Apple. Recipients
+must use their invited email address (Apple Hide My Email will not match a
+different invited address). Membership is linked by the existing auth callback.
+`SITE_URL` determines the email links: localhost for local review, the public
+site for production. A localhost link only works on the recipient's own machine.
+
+Delivery is disabled unless `EMAIL_ENABLED=true`; disabled sends log only a
+skip notice, not email contents. Run `npm test` to check templates and routing
+with mocked Mailgun requests. To test real delivery later, configure a verified
+Mailgun domain (or an authorized sandbox recipient), enable email in development,
+and add a test address you control through localhost. Missing configuration or
+Mailgun rejection appears as a failed scheduled action in Convex logs. Sends are
+independent per recipient, with no automatic application retries or historical
+backfill. Mailgun acceptance does not guarantee inbox delivery; check its logs.
 
 ### Email forwarding (optional)
 

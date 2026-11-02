@@ -203,3 +203,111 @@ describe("read-only Google planner events", () => {
     await expect(asMark.action(api.google.calendarEvents, range)).rejects.toThrow(/Could not load Google events/);
   });
 });
+
+describe("Mailgun circle notifications", () => {
+  afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); vi.useRealTimers(); });
+  async function mailSetup() {
+    vi.useFakeTimers();
+    vi.stubEnv("EMAIL_ENABLED", "true");
+    vi.stubEnv("MAILGUN_API_KEY", "test-key");
+    vi.stubEnv("MAILGUN_DOMAIN", "mg.example.com");
+    vi.stubEnv("MAILGUN_REGION", "US");
+    vi.stubEnv("EMAIL_FROM", "PlanBreeze <hello@mg.example.com>");
+    vi.stubEnv("SITE_URL", "http://localhost:3000");
+    const fetchMock = vi.fn().mockResolvedValue(Response.json({ id: "accepted" }));
+    vi.stubGlobal("fetch", fetchMock);
+    const users = await setup();
+    const circleId = await users.asMark.mutation(api.circles.create, { name: "Family <friends>", color: "#3F7A5A", members: [
+      { email: "dana@example.com", label: "Dana" }, { email: "new@example.com", label: "New <person>" }, { label: "Child" },
+    ] });
+    const flush = () => users.t.finishAllScheduledFunctions(vi.runAllTimers);
+    return { ...users, circleId, fetchMock, flush };
+  }
+  test("invites only unregistered members, using escaped HTML and plain text", async () => {
+    const { fetchMock, flush } = await mailSetup();
+    await flush();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, request] = fetchMock.mock.calls[0]!;
+    expect(url).toBe("https://api.mailgun.net/v3/mg.example.com/messages");
+    expect(request.headers.Authorization).toBe(`Basic ${btoa("api:test-key")}`);
+    const body = request.body as FormData;
+    expect(body.get("to")).toBe("new@example.com");
+    expect(body.get("html")).toContain("Family &lt;friends&gt;");
+    expect(body.get("html")).toContain('href="http://localhost:3000/login"');
+    expect(body.get("text")).toContain("Register with new@example.com");
+  });
+  test("notifies other members individually, invites nonusers, and skips ordinary edits", async () => {
+    const { asMark, circleId, fetchMock, flush } = await mailSetup();
+    await flush(); fetchMock.mockClear();
+    const id = await asMark.mutation(api.plans.create, { ...plan, circleId, status: "radar" });
+    await flush();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    const messages = fetchMock.mock.calls.map((call) => call[1].body as FormData);
+    expect(messages.map((m) => m.get("to")).sort()).toEqual(["dana@example.com", "new@example.com"]);
+    expect(messages.find((m) => m.get("to") === "new@example.com")!.get("text")).toContain("Register with new@example.com");
+    expect(messages.find((m) => m.get("to") === "dana@example.com")!.get("text")).not.toContain("Register with");
+    expect(messages[0]!.get("text")).toContain("not yet committed");
+    fetchMock.mockClear();
+    await asMark.mutation(api.plans.update, { planId: id, title: "Changed" });
+    await asMark.mutation(api.plans.commit, { planId: id });
+    await asMark.mutation(api.plans.create, { ...plan, status: "radar" });
+    await flush();
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+  test("covers capture, Breeze, Discover, circle moves, and notifies the owner when another member adds", async () => {
+    const { t, dana, asMark, asDana, circleId, fetchMock, flush } = await mailSetup();
+    await flush(); fetchMock.mockClear();
+    await asDana.mutation(api.capture.save, { event: plan, circleId, status: "radar" });
+    await asDana.mutation(api.breeze.addEventToRadar, { event: plan, circleId });
+    const suggestionId = await t.run((ctx) => ctx.db.insert("suggestions", { userId: dana, event: plan, state: "new", dedupeKey: "test-event" }));
+    await asDana.mutation(api.breeze.addSuggestionToRadar, { suggestionId, circleId });
+    const id = await asMark.mutation(api.plans.create, { ...plan, status: "radar" });
+    await asMark.mutation(api.plans.update, { planId: id, circleId });
+    await asMark.mutation(api.plans.update, { planId: id, circleId });
+    await flush();
+    const recipients = fetchMock.mock.calls.map((call) => (call[1].body as FormData).get("to"));
+    expect(recipients.filter((r) => r === "mark@example.com")).toHaveLength(3);
+    expect(recipients.filter((r) => r === "dana@example.com")).toHaveLength(1);
+    expect(recipients.filter((r) => r === "new@example.com")).toHaveLength(4);
+  });
+  test("rechecks membership, registration and deleted plans before sending", async () => {
+    const { t, asMark, circleId, fetchMock, flush } = await mailSetup();
+    await t.run((ctx) => ctx.db.insert("users", { email: "new@example.com" }));
+    await flush(); expect(fetchMock).not.toHaveBeenCalled();
+    const id = await asMark.mutation(api.plans.create, { ...plan, circleId, status: "radar" });
+    await asMark.mutation(api.plans.remove, { planId: id });
+    await flush(); expect(fetchMock).not.toHaveBeenCalled();
+    await asMark.mutation(api.plans.create, { ...plan, circleId, status: "radar" });
+    const [circle] = await asMark.query(api.circles.list, {});
+    for (const member of circle!.members.filter((m) => !m.isMe)) await asMark.mutation(api.circles.removeMember, { memberId: member._id });
+    await flush(); expect(fetchMock).not.toHaveBeenCalled();
+  });
+  test("committed plans notify, archived circles suppress delivery, and unauthorized writes send nothing", async () => {
+    const { t, asMark, asDana, circleId, fetchMock, flush } = await mailSetup();
+    await flush(); fetchMock.mockClear();
+    await asMark.mutation(api.plans.create, { ...plan, circleId, status: "committed" });
+    await flush();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect((fetchMock.mock.calls[0]![1].body as FormData).get("text")).toContain("Committed plan.");
+    fetchMock.mockClear();
+    await expect(asDana.mutation(api.plans.create, { ...plan, circleId, status: "committed" })).rejects.toThrow();
+    await expect(t.mutation(api.circles.addMember, { circleId, member: { email: "outsider@example.com", label: "Outsider" } })).rejects.toThrow();
+    await asMark.mutation(api.plans.create, { ...plan, circleId, status: "radar" });
+    await asMark.mutation(api.circles.archive, { circleId });
+    await flush();
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+  test("defaults to disabled, supports EU, and reports failures without provider contents", async () => {
+    const { sendEmail } = await import("./email");
+    const { fetchMock, flush } = await mailSetup();
+    vi.stubEnv("EMAIL_ENABLED", "false");
+    await flush(); expect(fetchMock).not.toHaveBeenCalled();
+    vi.stubEnv("EMAIL_ENABLED", "true"); vi.stubEnv("MAILGUN_REGION", "EU");
+    await sendEmail("test@example.com", "Subject", "<p>Body</p>", "Body");
+    expect(fetchMock.mock.calls[0]![0]).toBe("https://api.eu.mailgun.net/v3/mg.example.com/messages");
+    fetchMock.mockResolvedValue(new Response("sensitive provider response", { status: 401 }));
+    await expect(sendEmail("test@example.com", "Subject", "Body", "Body")).rejects.toThrow("Mailgun rejected email (HTTP 401).");
+    vi.stubEnv("MAILGUN_API_KEY", "");
+    await expect(sendEmail("test@example.com", "Subject", "Body", "Body")).rejects.toThrow(/requires/);
+  });
+});

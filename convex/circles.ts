@@ -161,6 +161,6 @@ async function addMemberRow(
     userId: user?._id,
     invitedAt: email ? Date.now() : undefined,
   });
-  if (email) await ctx.scheduler.runAfter(0, internal.email.sendInvite, { memberId, invitedBy });
+  if (email && !user) await ctx.scheduler.runAfter(0, internal.email.sendInvite, { memberId, invitedBy });
   return memberId;
 }
