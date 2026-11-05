@@ -11,3 +11,5 @@ dist
 .convex
 *.log
 .DS_Store
+
+server/dist

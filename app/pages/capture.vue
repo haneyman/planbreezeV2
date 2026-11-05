@@ -78,8 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
-import type { Id } from "~~/convex/_generated/dataModel";
+import { api } from "~/utils/api";
 import type { EventCandidate, PlanDraft } from "~/utils/types";
 import { draftFromEvent, draftToArgs, emptyDraft } from "~/utils/draft";
 import { formatWhen, todayLocal } from "~/utils/dates";
@@ -95,7 +94,7 @@ const message = ref("");
 const extracting = ref(false);
 const saving = ref(false);
 const draft = ref<PlanDraft | null>(null);
-const captureId = ref<Id<"captures"> | null>(null);
+const captureId = ref<string | null>(null);
 
 async function extract() {
   if (!input.value.trim()) return;
@@ -118,7 +117,7 @@ function startBlank() {
   draft.value = emptyDraft(todayLocal());
 }
 
-function review(id: Id<"captures">, e: EventCandidate) {
+function review(id: string, e: EventCandidate) {
   captureId.value = id;
   draft.value = draftFromEvent(e);
 }
@@ -139,7 +138,7 @@ async function save() {
     () =>
       mutate(api.capture.save, {
         event: { ...rest, reason: note },
-        circleId: d.circleId === "me" ? undefined : (d.circleId as Id<"circles">),
+        circleId: d.circleId === "me" ? undefined : (d.circleId as string),
         status: d.status,
         captureId: captureId.value ?? undefined,
       }),

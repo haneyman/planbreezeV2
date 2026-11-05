@@ -17,8 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
-import type { Id } from "~~/convex/_generated/dataModel";
+import { api } from "~/utils/api";
 import type { Circle, Plan, PlanDraft } from "~/utils/types";
 import { draftFromPlan, draftToArgs, emptyDraft } from "~/utils/draft";
 import { todayLocal } from "~/utils/dates";
@@ -39,7 +38,7 @@ async function save() {
   if (!draft.value.title.trim()) return;
   saving.value = true;
   const args = draftToArgs(draft.value);
-  const circleId = draft.value.circleId === "me" ? undefined : (draft.value.circleId as Id<"circles">);
+  const circleId = draft.value.circleId === "me" ? undefined : (draft.value.circleId as string);
   const id = await run(async () => {
     if (!props.plan) return mutate(api.plans.create, { ...args, circleId, status: draft.value.status });
     const p = props.plan;

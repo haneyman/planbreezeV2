@@ -53,8 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
-import type { Id } from "~~/convex/_generated/dataModel";
+import { api } from "~/utils/api";
 import { addDays, todayLocal } from "~/utils/dates";
 
 const today = todayLocal();
@@ -87,9 +86,9 @@ async function addSearch() {
   adding.value = false;
   if (ok) newQuery.value = "";
 }
-async function runNow(searchId: Id<"standingSearches">) {
+async function runNow(searchId: string) {
   runningId.value = searchId;
-  await run(() => runAction(api.breeze.runSearchNow, { searchId }), "Search finished");
+  await run(() => mutate(api.breeze.runSearchNow, { searchId }), "Search finished");
   runningId.value = null;
 }
 function ago(ms: number) {

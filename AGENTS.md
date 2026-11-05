@@ -1,13 +1,5 @@
-<!-- convex-ai-start -->
+# PlanBreeze
 
-This project uses [Convex](https://convex.dev) as its backend.
+Use Node 24 LTS, TypeScript, NestJS REST, MongoDB/Mongoose, and the existing Nuxt frontend. Read `CLAUDE.md` for project rules and `README.md` for setup. MongoDB is standalone: no transactions or replica-set requirements. Keep controller → service → Mongoose; avoid extra layers. Use OpenAI Responses for Breeze. Run typecheck, tests, and build before pushing.
 
-When working on Convex code, **always read
-`convex/_generated/ai/guidelines.md` first** for important guidelines on
-how to correctly use Convex APIs and patterns. The file contains rules that
-override what you may have learned about Convex from training data.
-
-Convex agent skills for common tasks can be installed by running
-`npx convex ai-files install`.
-
-<!-- convex-ai-end -->
+Postman CLI is available at `/Users/markhaney/.local/bin/postman` for API engineering work.

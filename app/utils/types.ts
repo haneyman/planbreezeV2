@@ -1,21 +1,5 @@
-import type { FunctionReturnType } from "convex/server";
-import type { api } from "~~/convex/_generated/api";
-
-export type Plan = FunctionReturnType<typeof api.plans.list>[number];
-export type Circle = FunctionReturnType<typeof api.circles.list>[number];
-export type Viewer = NonNullable<FunctionReturnType<typeof api.users.viewer>>;
-export type EventCandidate = {
-  title: string;
-  startDate: string;
-  endDate: string;
-  startTime?: string;
-  endTime?: string;
-  place?: string;
-  priceText?: string;
-  url?: string;
-  reason?: string;
-  ticketOnSaleDate?: string;
-};
+import type { Plan } from "~~/shared/types";
+export type { Plan, Circle, Viewer, EventCandidate, GooglePlannerEvent } from "~~/shared/types";
 
 export type PlanDraft = {
   title: string;
@@ -32,7 +16,6 @@ export type PlanDraft = {
   status: "radar" | "committed";
 };
 
-export type GooglePlannerEvent = FunctionReturnType<typeof api.google.calendarEvents>["events"][number];
 export type TimelineItem = Pick<Plan, "title" | "startDate" | "endDate" | "startTime" | "endTime"> & {
   _id: string;
   status: "committed" | "radar" | "google";

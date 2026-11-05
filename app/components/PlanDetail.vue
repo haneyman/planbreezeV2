@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
+import { api } from "~/utils/api";
 import type { Plan } from "~/utils/types";
 import { formatWhen, relativeDays } from "~/utils/dates";
 

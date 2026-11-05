@@ -1,3 +1,9 @@
+2026-11-04: MongoDB must remain standalone. Transaction-based implementation and earlier replica-set requirements are superseded.
+
+# Current migration decision
+
+2026-11-03: User approved Node 24, NestJS/Express REST, MongoDB/Mongoose, Passport OAuth with cookie sessions, polling, MongoDB jobs, and OpenAI replacing Anthropic. Database hosting clarification: Docker locally; the existing MongoDB instance on the droplet in production, both in standalone mode without transactions. Earlier decisions below are historical and superseded where they conflict. Live provider verification and production cutover remain required.
+
 # 09 — Risks & open questions
 
 ## Decisions made

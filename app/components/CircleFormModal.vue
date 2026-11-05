@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
+import { api } from "~/utils/api";
 import { CIRCLE_COLORS } from "~/utils/colors";
 
 const open = defineModel<boolean>("open", { default: false });

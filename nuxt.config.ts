@@ -1,8 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2026-09-01",
-  // PlanBreeze is a client-rendered app: Convex handles data and realtime.
+  // The client-rendered frontend calls the NestJS REST API.
   ssr: false,
+  serverDir: "nuxt-server",
   modules: ["@nuxt/ui"],
   css: ["~/assets/css/main.css"],
   ui: { colorMode: false },
@@ -10,8 +11,7 @@ export default defineNuxtConfig({
   icon: { clientBundle: { scan: true, sizeLimitKb: 512 } },
   runtimeConfig: {
     public: {
-      // Set NUXT_PUBLIC_CONVEX_URL (printed by `npx convex dev`, e.g. https://happy-otter-123.convex.cloud)
-      convexUrl: "",
+      apiUrl: "http://localhost:3001/api",
     },
   },
   app: {

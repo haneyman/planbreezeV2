@@ -15,7 +15,9 @@ set -euo pipefail
 [[ "$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" =~ ^[0-9]+-[0-9]+$ ]]
 test -s .output/public/index.html
 test -s .output/public/200.html
-grep -Fq 'https://basic-peacock-14.convex.cloud' .output/public/index.html
+grep -Fq 'https://planbreeze.com/api' .output/public/index.html
+# Prevent switching the frontend before its replacement API is available.
+curl --fail --silent --show-error --max-time 30 https://planbreeze.com/api/health | node -e 'let body=""; process.stdin.on("data", c => body += c); process.stdin.on("end", () => { const r = JSON.parse(body); if (!r.ok || r.service !== "planbreeze-api") process.exit(1); });'
 
 ssh_dir=$(mktemp -d "$RUNNER_TEMP/planbreeze-ssh.XXXXXX")
 trap 'rm -rf "$ssh_dir"' EXIT

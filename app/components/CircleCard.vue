@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
+import { api } from "~/utils/api";
 import type { Circle } from "~/utils/types";
 import { ACCESS_LABELS, CIRCLE_COLORS, initials } from "~/utils/colors";
 

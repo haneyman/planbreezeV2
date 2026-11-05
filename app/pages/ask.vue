@@ -76,8 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
-import type { Id } from "~~/convex/_generated/dataModel";
+import { api } from "~/utils/api";
 import type { EventCandidate } from "~/utils/types";
 
 const route = useRoute();
@@ -85,7 +84,7 @@ const router = useRouter();
 const run = useRun();
 const toast = useToast();
 
-const chatId = ref<Id<"chats"> | null>(null);
+const chatId = ref<string | null>(null);
 const text = ref("");
 const sending = ref(false);
 const added = ref(new Set<string>());
@@ -122,7 +121,7 @@ function lastQuestion(messageId: string) {
   return null;
 }
 
-async function addEvent(messageId: string, i: number, e: EventCandidate & { fit?: string }, circleId?: Id<"circles">) {
+async function addEvent(messageId: string, i: number, e: EventCandidate & { fit?: string }, circleId?: string) {
   const { fit: _fit, ...event } = e;
   const ok = await run(() => mutate(api.breeze.addEventToRadar, { event, circleId }), "Added to your radar");
   if (ok) added.value = new Set(added.value).add(key(messageId, i));

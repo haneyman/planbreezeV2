@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
+import { api } from "~/utils/api";
 
 const route = useRoute();
 const router = useRouter();
@@ -149,7 +149,7 @@ async function connect() {
 const refreshing = ref(false);
 async function refresh() {
   refreshing.value = true;
-  await run(() => runAction(api.google.refreshCalendars, {}), "Calendars refreshed");
+  await run(() => mutate(api.google.refreshCalendars, {}), "Calendars refreshed");
   refreshing.value = false;
 }
 const disconnect = () => run(() => mutate(api.google.disconnect, {}), "Google Calendar disconnected");

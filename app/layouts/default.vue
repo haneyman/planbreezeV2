@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
+import { api } from "~/utils/api";
 
 const { data: viewer } = useQuery(api.users.viewer);
 const { data: suggestions } = useQuery(api.breeze.suggestions);

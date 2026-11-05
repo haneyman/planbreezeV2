@@ -1,59 +1,17 @@
-# Instructions for working on PlanBreeze (human or AI)
+# Working on PlanBreeze
 
-## Status
+The user approved NestJS + MongoDB/Mongoose on 2026-11-03, with OpenAI replacing Anthropic. Keep the Nuxt frontend and one API process. Use Node 24 LTS and npm.
 
-The MVP is built: Nuxt + Nuxt UI front end, Convex backend. See `docs/08-project-plan.md` for what's done and what's next.
+Controllers validate DTOs; services enforce authorization and access Mongoose models directly. No repository layer, CQRS, Redis, or microservices. Shared record/response types are in `shared/types.ts`. Frontend REST calls are in `app/utils/api.ts`; auth, polling, and toasts are in `app/composables/api.ts`.
 
-| Date | Decision | By |
-|---|---|---|
-| 2026-09-25 | **Stack changed:** Nuxt 4 + Nuxt UI 4 front end, Convex backend (convex.dev), repo on GitHub. Replaces the earlier Vue-SPA / Fastify / MongoDB / Droplet / PM2 plan. Keep it simple with few layers. Implementation approved. | Mark |
-| 2026-09-25 | Multiple circles per user (members = email + label + access). Each circle has an optional linked calendar, and committed circle plans go there. The Planner filter is Me + circles. | Mark |
-| 2026-09-24 | Designs and plan created. Personal project; domain planbreeze.com. | Mark |
+Permissions live in `server/src/common/permissions.ts`: owner > coPlanner > contributor > viewer. Private plans are visible only to their owner. Contributors may edit their own radar plans; co-planners can commit. Check the destination circle when moving a plan.
 
-## Stack
+Committed plans target the circle owner's linked Google Calendar, otherwise the committer's default. Radar plans never create external events. Edit/delete only Google events carrying the matching `planbreezePlanId`. Keep refresh tokens AES-GCM encrypted using `TOKEN_ENCRYPTION_KEY`; never log them or send them to AI.
 
-- **Front end:** Nuxt 4 (`app/` directory), client-rendered (`ssr: false`), Nuxt UI 4 components, Tailwind v4 via Nuxt UI. The theme lives in `app/assets/css/main.css` and `app/app.config.ts` (primary `sea`, secondary `coral`, neutral `stone`).
-- **Data:** `app/composables/convex.ts` is the only data layer. It provides `useQuery` (live), `mutate`, `runAction`, `useRun` (error toasts) and auth. Don't add Pinia, stores or API wrappers on top.
-- **Backend:** Convex functions in `convex/`, one file per area. Mutations are transactional, so there's no outbox or queue code. Use `ctx.scheduler` for side effects like calendar writes and emails.
-- **Auth:** Convex Auth (`@convex-dev/auth`) with Google and Apple. Its React client is ported to Vue in `composables/convex.ts`. Calendar access is a separate OAuth consent flow (`convex/google.ts`).
-- **AI:** Anthropic Messages API with server-side web search (`convex/claude.ts`). The model is set by `ANTHROPIC_MODEL`.
+MongoDB is standalone locally and in production. Do not use transactions, sessions for database operations, or change streams. Write directly through Mongoose; validate before writing and use conditional single-document updates for state changes. Multi-document writes and job enqueueing are sequential and can partially complete. MongoDB runs in Docker locally and on the existing droplet instance in production, not Atlas. Jobs retry, so provider operations must be repeatable where possible. Mailgun delivery can duplicate across a crash boundary; do not claim exactly-once delivery.
 
-## Rules
+Breeze suggests, never acts. Suggested events require returned search source URLs. Dates stay local `YYYY-MM-DD`, end inclusive, with optional `HH:MM` and IANA zones.
 
-1. **Permissions live in `convex/lib.ts`.** Use `requireCircleAccess` and `planPermissions`, and check access in every public function. Circles have 4 access levels: owner > coPlanner > contributor > viewer. "Just me" plans (no `circleId`) are visible only to their owner.
-2. **Commit routing:**
-   - A committed plan goes to its circle's `linkedCalendarId`, written through the circle owner's Google account.
-   - Otherwise it goes to the committer's `defaultCalendarId`.
-   - Radar plans are never written to an external calendar.
-3. **Google events:** PlanBreeze edits and deletes only events it created (they carry `extendedProperties.private.planbreezePlanId`).
-4. **Tokens:** refresh tokens are AES-GCM encrypted with `TOKEN_ENCRYPTION_KEY`. Never log them or send them to the LLM.
-5. **Breeze suggests, never acts.** Events shown to users must come from web search results with a source URL (`grounded()` in `breeze.ts`). Nothing is booked, bought or sent without a click.
-6. **Dates:** plans store local calendar dates (`YYYY-MM-DD`, end date inclusive), optional `HH:MM` times and an IANA `timeZone`. Never store all-day plans as midnight UTC.
-7. **UI:**
-   - Copy is in sentence case, with no emoji.
-   - Use real `<button>`, `<a>` and `<input>` elements.
-   - Keep the contrast-checked colors from `docs/03-design-system.md`.
-   - Committed = solid `committed-bar`; radar = dashed `radar-bar`.
-8. **Tests:** every backend behavior change gets a test in `convex/app.test.ts` (convex-test). Before pushing, run `npm run typecheck && npm test && npm run build`.
-9. **Generated code:** `convex/_generated/` is generated by `npx convex dev`. Commit it, and don't edit it by hand once a deployment exists.
-10. **Keep it small.** Before adding a new layer, library or abstraction, check whether a plain function or an existing Nuxt UI component would do.
+Keep sentence-case UI, existing accessible components, theme colors, solid committed bars, and dashed radar bars. Backend tests are in `server/test`; run `npm run typecheck`, `npm test`, and `npm run build` before pushing. Tests import compiled API output so Nest receives decorator metadata.
 
-## Source of truth
-
-- **Product behavior:** `docs/02-feature-spec.md`.
-- **Visual reference:** `design/screens/*.dc.html`. These are mockups; rebuild them with Nuxt UI rather than copying their markup.
-- **Open decisions:** `docs/09-risks-and-open-questions.md`. Ask, or record the decision there; don't choose silently.
-
-<!-- convex-ai-start -->
-
-This project uses [Convex](https://convex.dev) as its backend.
-
-When working on Convex code, **always read
-`convex/_generated/ai/guidelines.md` first** for important guidelines on
-how to correctly use Convex APIs and patterns. The file contains rules that
-override what you may have learned about Convex from training data.
-
-Convex agent skills for common tasks can be installed by running
-`npx convex ai-files install`.
-
-<!-- convex-ai-end -->
+See README for setup and docs/10-migration-and-deployment.md for production migration. Do not run the data import or deploy without a configured target and reviewed cutover.

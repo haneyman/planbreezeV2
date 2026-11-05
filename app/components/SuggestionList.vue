@@ -20,8 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
-import type { Id } from "~~/convex/_generated/dataModel";
+import { api } from "~/utils/api";
 
 const props = withDefaults(defineProps<{ limit?: number; compact?: boolean; filter?: (s: any) => boolean }>(), { limit: 100, compact: false });
 const { data: suggestions } = useQuery(api.breeze.suggestions);
@@ -29,10 +28,10 @@ const shown = computed(() => (suggestions.value ?? []).filter((s) => !props.filt
 const run = useRun();
 const busy = ref<string | null>(null);
 
-async function add(id: Id<"suggestions">, circleId?: Id<"circles">) {
+async function add(id: string, circleId?: string) {
   busy.value = id;
   await run(() => mutate(api.breeze.addSuggestionToRadar, { suggestionId: id, circleId }), "Added to your radar");
   busy.value = null;
 }
-const dismiss = (id: Id<"suggestions">) => run(() => mutate(api.breeze.dismissSuggestion, { suggestionId: id }));
+const dismiss = (id: string) => run(() => mutate(api.breeze.dismissSuggestion, { suggestionId: id }));
 </script>

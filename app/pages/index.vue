@@ -97,7 +97,7 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
+import { api } from "~/utils/api";
 import { rangeFor, ZOOMS, type Zoom } from "~/utils/timeline";
 import { daysBetween, startOfWeek, todayLocal } from "~/utils/dates";
 import { emptyDraft } from "~/utils/draft";
@@ -162,10 +162,9 @@ let googleRequest = 0;
 const calendarsToShow = computed(() => (viewer.value?.google?.calendars ?? []).filter((c) => !hidden.value.has("google:" + c.id)));
 async function loadGoogleEvents() {
   const request = ++googleRequest;
-  googleEvents.value = [];
   googleMessage.value = "";
   const calendars = calendarsToShow.value;
-  if (!viewer.value?.google || !calendars.length) { googleLoading.value = false; return; }
+  if (!viewer.value?.google || !calendars.length) { googleEvents.value = []; googleLoading.value = false; return; }
   googleLoading.value = true;
   const { from, to } = range.value;
   const events: GooglePlannerEvent[] = [];
@@ -182,7 +181,11 @@ async function loadGoogleEvents() {
       if (result.status === "fulfilled") {
         events.push(...result.value.events);
         truncated ||= result.value.truncated;
-      } else failed.push(batch[n]!.name);
+      } else {
+        failed.push(batch[n]!.name);
+        // Keep already displayed events for a calendar whose refresh failed.
+        events.push(...googleEvents.value.filter((event) => event.calendarId === batch[n]!.id && event.startDate < to && event.endDate >= from));
+      }
     });
   }
   googleEvents.value = events;
@@ -192,8 +195,9 @@ async function loadGoogleEvents() {
     truncated ? "Some events are not shown. Choose a shorter timeframe to see more." : "",
   ].filter(Boolean).join(" ");
 }
-watch(() => [range.value.from, range.value.to, viewer.value?._id, viewer.value?.google?.status,
-  viewer.value?.google?.lastSyncedAt, calendarsToShow.value.map((c) => c.id).join("|")], loadGoogleEvents, { immediate: true });
+// Compare values, not the identity of a newly allocated array on every viewer poll.
+watch(() => JSON.stringify([range.value.from, range.value.to, viewer.value?._id, viewer.value?.google?.status,
+  viewer.value?.google?.lastSyncedAt, calendarsToShow.value.map((c) => c.id)]), loadGoogleEvents, { immediate: true });
 onBeforeUnmount(() => { googleRequest++; });
 const visibleGoogle = computed(() => googleEvents.value.filter((event) => !hidden.value.has("google:" + event.calendarId) &&
   !(plans.value ?? []).some((p) => p.googleEvent?.calendarId === event.calendarId && p.googleEvent.eventId === event.eventId)));

@@ -49,7 +49,7 @@ export function draftFromPlan(p: Plan): PlanDraft {
   };
 }
 
-/** Optional fields: empty string → undefined, for Convex args. */
+/** Optional fields: empty string → undefined, for API requests. */
 export function draftToArgs(d: PlanDraft) {
   const opt = (s: string) => (s.trim() ? s.trim() : undefined);
   return {

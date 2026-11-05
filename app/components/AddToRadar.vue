@@ -6,11 +6,10 @@
 </template>
 
 <script setup lang="ts">
-import { api } from "~~/convex/_generated/api";
-import type { Id } from "~~/convex/_generated/dataModel";
+import { api } from "~/utils/api";
 
 withDefaults(defineProps<{ busy?: boolean; size?: "sm" | "md" }>(), { busy: false, size: "sm" });
-const emit = defineEmits<{ add: [circleId: Id<"circles"> | undefined] }>();
+const emit = defineEmits<{ add: [circleId: string | undefined] }>();
 const { data: circles } = useQuery(api.circles.list);
 const choices = computed(() => [
   { label: "Just me", icon: "i-lucide-user", onSelect: () => emit("add", undefined) },
