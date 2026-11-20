@@ -1,4 +1,4 @@
-import { addDays, addMonths, MONTHS, shortDate, startOfMonth, startOfWeek, toMs } from "./dates";
+import { addDays, addMonths, MONTHS, WEEKDAYS, shortDate, startOfMonth, startOfWeek, toMs } from "./dates";
 
 export type Zoom = "month" | "twoMonths" | "quarter" | "year";
 
@@ -39,18 +39,18 @@ export function rangeFor(zoom: Zoom, today: string, offset = 0): Range {
 
 export type Tick = { left: number; width: number; label: string; sub: string };
 
-export function ticksFor(r: Range): Tick[] {
+export function ticksFor(r: Range, daily = false): Tick[] {
   const pct = pctFn(r);
   const starts: string[] = [];
-  for (let d = r.from; d < r.to; d = r.tick === "week" ? addDays(d, 7) : addMonths(d, 1)) starts.push(d);
+  for (let d = r.from; d < r.to; d = daily ? addDays(d, 1) : r.tick === "week" ? addDays(d, 7) : addMonths(d, 1)) starts.push(d);
   return starts.map((d, i) => {
     const next = starts[i + 1] ?? r.to;
     const month = +d.slice(5, 7) - 1;
     return {
       left: pct(d),
       width: pct(next) - pct(d),
-      label: r.tick === "week" ? shortDate(d) : MONTHS[month]!,
-      sub: r.tick === "month" && (i === 0 || month === 0) ? d.slice(0, 4) : "",
+      label: daily || r.tick === "week" ? shortDate(d) : MONTHS[month]!,
+      sub: daily ? WEEKDAYS[new Date(toMs(d)).getUTCDay()]! : r.tick === "month" && (i === 0 || month === 0) ? d.slice(0, 4) : "",
     };
   });
 }

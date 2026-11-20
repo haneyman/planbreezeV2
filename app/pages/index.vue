@@ -32,6 +32,7 @@
           <UButton icon="i-lucide-chevron-right" color="neutral" variant="ghost" aria-label="Later" @click="offset++" />
         </div>
         <div class="text-sm font-semibold">{{ range.label }}</div>
+        <UCheckbox v-model="showDays" label="Show daily grid" />
         <div class="grow" />
         <div class="flex items-center gap-4 text-[13px] text-[#3A4552]">
           <span class="flex items-center gap-1.5"><span class="w-5.5 h-3 rounded committed-bar" />Committed</span>
@@ -76,7 +77,7 @@
         <p v-if="googleMessage" role="status" class="w-full text-sm text-muted">{{ googleMessage }}</p>
       </div>
 
-      <PlanTimeline :plans="visiblePlans" :range="range" :today="today" :selected-id="selectedId" class="min-h-80" @select="selectedId = $event" @zoom-to="zoomTo" />
+      <PlanTimeline :show-days="showDays" :plans="visiblePlans" :range="range" :today="today" :selected-id="selectedId" class="min-h-80" @select="selectedId = $event" @zoom-to="zoomTo" />
 
       <div class="grid lg:grid-cols-[1fr_320px] gap-4">
         <GoogleEventDetail v-if="selectedGoogle" :event="selectedGoogle" :time-zone="googleTimeZone" />
@@ -106,6 +107,7 @@ import type { PlanDraft, GooglePlannerEvent, TimelineItem } from "~/utils/types"
 const today = todayLocal();
 const zoom = ref<Zoom>("twoMonths");
 const offset = ref(0);
+const showDays = ref(false);
 const range = computed(() => rangeFor(zoom.value, today, offset.value));
 /** Jump from a Year+ month cluster to the Month view around that date. */
 function zoomTo(date: string) {

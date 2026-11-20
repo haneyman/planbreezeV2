@@ -1,7 +1,7 @@
 // Plans use local calendar dates ("YYYY-MM-DD"); all math here is on UTC midnights of those dates.
 
 export const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+export const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const DAY = 86_400_000;
 
 export const toMs = (d: string) => Date.parse(d + "T00:00:00Z");

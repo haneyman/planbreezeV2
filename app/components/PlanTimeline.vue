@@ -1,14 +1,16 @@
 <template>
-  <section aria-label="Timeline" class="rounded-2xl border border-line bg-white px-5 pb-3 flex flex-col">
+  <div class="overflow-x-auto rounded-2xl" tabindex="0" aria-label="Scrollable planning timeline">
+  <section :style="showDays ? { minWidth: dayCount * 56 + 40 + 'px' } : undefined" aria-label="Timeline" class="rounded-2xl border border-line bg-white px-5 pb-3 min-h-80 flex flex-col">
     <!-- Ticks -->
-    <div class="relative h-11 border-b border-line shrink-0">
+    <div class="relative border-b border-line shrink-0" :class="showDays ? 'h-18' : 'h-11'">
       <div
         v-for="t in ticks"
         :key="t.left"
         class="absolute inset-y-0 border-l border-[#EEEAE1] pl-2 pt-3.5 text-xs text-muted whitespace-nowrap overflow-hidden"
         :style="{ left: t.left + '%', width: t.width + '%' }"
       >
-        <span class="font-semibold text-[#1D2733]">{{ t.label }}</span> {{ t.sub }}
+        <span class="font-semibold text-[#1D2733]">{{ t.label }}</span>
+        <span :class="showDays ? 'block mt-0.5' : 'ml-1'">{{ t.sub }}</span>
       </div>
       <div
         v-if="todayPct !== null"
@@ -80,6 +82,7 @@
       </div>
     </div>
   </section>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -88,14 +91,14 @@ import { packBars, pctFn, ticksFor, type Range } from "~/utils/timeline";
 import { addDays, addMonths, daysBetween, formatWhen, MONTHS } from "~/utils/dates";
 import { useResizeObserver } from "@vueuse/core";
 
-const props = defineProps<{ plans: TimelineItem[]; range: Range; today: string; selectedId?: string | null }>();
+const props = defineProps<{ plans: TimelineItem[]; range: Range; today: string; selectedId?: string | null; showDays?: boolean }>();
 defineEmits<{ select: [id: string]; zoomTo: [date: string] }>();
 
 type Item = Pick<TimelineItem, "_id" | "title" | "startDate" | "endDate"> & { cluster?: boolean };
 
 /** At Year+ zoom, short plans in the same month collapse into one "Oct · 4 plans" bar (click to zoom in). */
 function clustered(list: TimelineItem[]): Item[] {
-  if (props.range.tick !== "month" || ticks.value.length < 12) return list;
+  if (props.showDays || props.range.tick !== "month" || ticks.value.length < 12) return list;
   const short = (p: TimelineItem) => daysBetween(p.startDate, p.endDate) < 3;
   const byMonth = new Map<string, TimelineItem[]>();
   for (const p of list.filter(short)) byMonth.set(p.startDate.slice(0, 7), [...(byMonth.get(p.startDate.slice(0, 7)) ?? []), p]);
@@ -117,7 +120,8 @@ useResizeObserver(track, (entries) => {
   if (w) trackPx.value = w;
 });
 
-const ticks = computed(() => ticksFor(props.range));
+const dayCount = computed(() => daysBetween(props.range.from, props.range.to));
+const ticks = computed(() => ticksFor(props.range, props.showDays));
 const todayPct = computed(() =>
   props.today >= props.range.from && props.today < props.range.to ? pctFn(props.range)(props.today) + 50 / Math.max(1, (Date.parse(props.range.to) - Date.parse(props.range.from)) / 86400000) : null,
 );
