@@ -1,0 +1,30 @@
+[Unit]
+Description=PlanBreeze NestJS API
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=planbreeze
+Group=planbreeze
+WorkingDirectory=/opt/planbreeze/current
+# Node dotenv syntax, not systemd EnvironmentFile syntax. Explicit env wins over file.
+Environment=NODE_ENV=production HOST=127.0.0.1 PORT=3001
+ExecStart=/usr/bin/node --env-file=/opt/planbreeze/shared/app.env server/dist/server/src/main.js
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+KillSignal=SIGTERM
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/opt/planbreeze
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

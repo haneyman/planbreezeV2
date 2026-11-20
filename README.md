@@ -74,3 +74,5 @@ Tests start a disposable standalone MongoDB 8 instance (first run downloads the 
 See [migration and deployment](docs/10-migration-and-deployment.md) for importing existing data and deploying the API. The Chrome extension still opens `/capture?url=...` and needs no protocol change.
 
 Standalone MongoDB uses atomic single-document updates. Multi-document operations and job enqueueing are sequential: a database failure or process crash can leave partial work. Request validation runs before writes where practical, but there is no cross-document rollback. A failed snapshot import must be retried into a fresh database.
+
+For the HTTPS development server at `dev.planbreeze.com` (PM2 + Caddy), see [Ubuntu development deployment](docs/11-ubuntu-lan-deployment.md). It includes first-time setup and `./scripts/deploy-ubuntu.sh` for deploying both web and API.
